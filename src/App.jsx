@@ -48,71 +48,86 @@ const GlobalStyles = () => (
 
 
 // COMPONENT: Logo
+
+// É uma boa prática exportar o componente para que possa ser usado em outros arquivos.
 const Logo = () => (
-    <div className="flex items-center space-x-2">
-        {/* Placeholder para o logo. O ideal é usar um SVG ou a imagem. */}
-        <div className="w-12 h-12 bg-light-blue rounded-full flex items-center justify-center">
-            <svg width="30" height="30" viewBox="0 0 128 128" className="text-electric-green">
-              <path fill="currentColor" d="M89.38 103.95L64 78.58l-25.38 25.37l-6.1-6.1l25.37-25.38L32.5 47.07l6.1-6.1l25.38 25.38l25.38-25.38l6.1 6.1l-25.38 25.38l25.38 25.38z"/>
-              <path fill="currentColor" d="M112.5 24.5v-11h-11v11h11zm-24.75 0v-11h-11v11h11zm-24.75 0v-11h-11v11h11zM38.25 24.5v-11h-11v11h11zm-24.75 0v-11h-11v11h11zm74.25 24.75v-11h-11v11h11zm0 24.75v-11h-11v11h11zm0 24.75v-11h-11v11h11zm0 24.75v-11h-11v11h11zm-24.75 0v-11h-11v11h11zm-24.75 0v-11h-11v11h11zM38.25 114v-11h-11v11h11zm-24.75 0v-11h-11v11h11zm0-24.75v-11h-11v11h11zm0-24.75v-11h-11v11h11zm0-24.75v-11h-11v11h11z"/>
-            </svg>
-        </div>
-        <div>
-            <h1 className="text-2xl font-bold text-white">Vetta<span className="text-electric-green">Tec</span></h1>
-            <p className="text-xs text-gray-300 tracking-wider">No topo da inovação</p>
-        </div>
+  // A div principal que agrupa o logo e o texto
+  <div className="flex items-center space-x-2">
+    
+    {/* Imagem do logo */}
+    <img src="/logo.png" alt="Logo da VettaTec" className="w-12 h-12" />
+
+    {/* Div para agrupar o nome da empresa e o slogan */}
+    <div>
+      {/* ERRO CORRIGIDO: 
+        1. "text-2x1" foi corrigido para "text-2xl".
+        2. A tag <h1> foi fechada corretamente.
+      */}
+      <h1 className="text-2xl font-bold text-white">
+        Vetta<span className="text-electric-green">Tec</span>
+      </h1>
+
+      {/* ERRO CORRIGIDO: 
+        "trackiing-winder" foi corrigido para "tracking-wider".
+      */}
+      <p className="text-xs text-gray-300 tracking-wider">
+        No topo da inovação
+      </p>
     </div>
+    
+  </div> // ERRO CORRIGIDO: Tag </div> de fechamento adicionada.
 );
 
-// COMPONENT: Navigation
-const Navigation = ({ currentPage, setCurrentPage }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const navLinks = ["Início", "Sobre Nós", "Serviços", "Blog", "FAQ", "Contato"];
 
-    const handleNavClick = (page) => {
-        setCurrentPage(page);
-        setIsOpen(false);
-    };
-    
-    return (
-        <header className="bg-deep-blue/80 backdrop-blur-md sticky top-0 z-50">
-            <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
-                <Logo />
-                <div className="hidden md:flex items-center space-x-8">
-                    {navLinks.map(link => (
-                        <a
-                            key={link}
-                            href={`#${link.toLowerCase().replace(' ', '-')}`}
-                            onClick={() => handleNavClick(link)}
-                            className={`nav-link font-semibold text-white hover:text-electric-green ${currentPage === link ? 'active text-electric-green' : ''}`}
-                        >
-                            {link}
-                        </a>
-                    ))}
-                </div>
-                <div className="md:hidden">
-                    <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
-                        {isOpen ? <X size={28} /> : <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>}
-                    </button>
-                </div>
-            </nav>
-            {isOpen && (
-                <div className="md:hidden bg-light-blue">
-                    {navLinks.map(link => (
-                        <a
-                            key={link}
-                            href={`#${link.toLowerCase().replace(' ', '-')}`}
-                            onClick={() => handleNavClick(link)}
-                            className="block px-6 py-3 text-center font-semibold text-white hover:bg-deep-blue hover:text-electric-green"
-                        >
-                            {link}
-                        </a>
-                    ))}
-                </div>
-            )}
-        </header>
-    );
-};
+// COMPONENT: Navigation
+            function Navigation({ currentPage, setCurrentPage }) {
+                const [isOpen, setIsOpen] = useState(false);
+                const navLinks = ["Início", "Sobre Nós", "Serviços", "Blog", "FAQ", "Contato"];
+
+                const handleNavClick = (page) => {
+                    setCurrentPage(page);
+                    setIsOpen(false);
+                };
+
+                return (
+                    <header className="bg-deep-blue/80 backdrop-blur-md sticky top-0 z-50">
+                        <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
+                            <Logo />
+                            <div className="hidden md:flex items-center space-x-8">
+                                {navLinks.map(link => (
+                                    <a
+                                        key={link}
+                                        href={`#${link.toLowerCase().replace(' ', '-')}`}
+                                        onClick={() => handleNavClick(link)}
+                                        className={`nav-link font-semibold text-white hover:text-electric-green ${currentPage === link ? 'active text-electric-green' : ''}`}
+                                    >
+                                        {link}
+                                    </a>
+                                ))}
+                            </div>
+                            <div className="md:hidden">
+                                <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
+                                    {isOpen ? <X size={28} /> : <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>}
+                                </button>
+                            </div>
+                        </nav>
+                        {isOpen && (
+                            <div className="md:hidden bg-light-blue">
+                                {navLinks.map(link => (
+                                    <a
+                                        key={link}
+                                        href={`#${link.toLowerCase().replace(' ', '-')}`}
+                                        onClick={() => handleNavClick(link)}
+                                        className="block px-6 py-3 text-center font-semibold text-white hover:bg-deep-blue hover:text-electric-green"
+                                    >
+                                        {link}
+                                    </a>
+                                ))}
+                            </div>
+                        )}
+                    </header>
+                );
+            }
 
 // COMPONENT: Hero Section
 const HeroSection = ({setCurrentPage}) => (
