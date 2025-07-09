@@ -66,3 +66,19 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* ... outros estilos do seu GlobalStyles ... */
+
+.vetta-logo {
+  max-height: 40px; /* Tamanho padrão para telas pequenas (celular) */
+  width: auto;      /* Garante que a proporção seja mantida */
+  transition: max-height 0.3s ease; /* Efeito suave de transição (bônus!) */
+}
+
+@media (min-width: 768px) {
+  .vetta-logo {
+    max-height: 100px; /* Tamanho maior para telas de desktop */
+  }
+}
+
+/* ... aqui continua o resto do seu CSS se houver ... */

@@ -5,13 +5,15 @@ import { Cpu, Globe, Smartphone, BarChart3, Briefcase, ChevronDown, ChevronUp, S
 const GlobalStyles = () => (
   <style>{`
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap');
+    
     body {
       font-family: 'Montserrat', sans-serif;
-      background-color: #0A192F;
+      background-color: #0A192F; /* <-- A COR DE FUNDO ESTÁ AQUI! */
       color: #E6F1FF;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
+
     .text-electric-green { color: #64FFDA; }
     .bg-electric-green { background-color: #64FFDA; }
     .border-electric-green { border-color: #64FFDA; }
@@ -43,8 +45,22 @@ const GlobalStyles = () => (
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
     }
+
+    /* Estilos para o logo responsivo */
+    .vetta-logo {
+      max-height: 40px; /* Tamanho padrão para celular */
+      width: auto;      /* Mantém a proporção */
+      transition: max-height 0.3s ease; /* Efeito suave */
+    }
+
+    @media (min-width: 768px) {
+      .vetta-logo {
+        max-height: 55px; /* Tamanho maior para desktop */
+      }
+    }
   `}</style>
 );
+
 
 
 // COMPONENT: Logo
@@ -55,7 +71,11 @@ const Logo = () => (
   <div className="flex items-center space-x-2">
     
     {/* Imagem do logo */}
-    <img src="/logo.png" alt="Logo da VettaTec" className="w-12 h-12" />
+   <img
+    src="/logo.png"
+    alt="Logo da VettaTec"
+    className="vetta-logo" 
+/>
 
     {/* Div para agrupar o nome da empresa e o slogan */}
     <div>
