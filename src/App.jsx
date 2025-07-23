@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { LiveEmbed } from '@typeform/embed-react'; 
+
+
 import { Cpu, Globe, Smartphone, BarChart3, Briefcase, ChevronDown, ChevronUp, Send, MessageSquare, Phone, Instagram, Linkedin, Facebook, Twitter, X } from 'lucide-react';
 
 // STYLES - Adicionado diretamente para simplicidade, sem necessidade de CSS externo
@@ -377,49 +380,24 @@ const FaqSection = () => (
 
 // COMPONENT: Contact Section
 const ContactSection = () => {
-    const [formStatus, setFormStatus] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setFormStatus('Enviando...');
-        
-        // Simulação de envio
-        setTimeout(() => {
-            setFormStatus('Mensagem enviada com sucesso!');
-            e.target.reset();
-            setTimeout(() => setFormStatus(''), 3000);
-        }, 1500);
-    };
-
-    return (
+ return (
         <section id="contato" className="container mx-auto px-6 py-20">
             <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-white">Vamos <span className="text-electric-green">Conversar?</span></h2>
                 <p className="mt-4 text-lg text-gray-300">Estamos prontos para transformar suas ideias em realidade.</p>
             </div>
-            <div className="grid lg:grid-cols-2 gap-12 items-start">
-                <div className="bg-light-blue p-8 rounded-lg">
-                    <h3 className="text-2xl font-bold mb-6 text-white">Envie uma Mensagem</h3>
-                    {/* Para integrar com Mailchimp, o action do form apontaria para a URL do seu Mailchimp */}
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <input type="text" placeholder="Seu nome" required className="w-full p-3 bg-deep-blue rounded-md border border-gray-600 focus:outline-none focus:ring-2 ring-electric-green" />
-                        <input type="email" placeholder="Seu melhor e-mail" required className="w-full p-3 bg-deep-blue rounded-md border border-gray-600 focus:outline-none focus:ring-2 ring-electric-green" />
-                        <input type="text" placeholder="Assunto" required className="w-full p-3 bg-deep-blue rounded-md border border-gray-600 focus:outline-none focus:ring-2 ring-electric-green" />
-                        <textarea placeholder="Sua mensagem" rows="5" required className="w-full p-3 bg-deep-blue rounded-md border border-gray-600 focus:outline-none focus:ring-2 ring-electric-green"></textarea>
-                        
-                        <div className="flex items-center space-x-2">
-                           <input type="checkbox" id="newsletter" className="h-4 w-4 rounded border-gray-300 text-electric-green focus:ring-electric-green" />
-                           <label htmlFor="newsletter" className="text-sm text-gray-400">Quero receber novidades e insights da VettaTec.</label>
-                        </div>
+                       <div className="max-w-4xl mx-auto">
+                        <LiveEmbed id="01JZTNSX8DBGDM12RMZT244RGV" className="w-full h-[500px]" />
 
-                        <button type="submit" className="w-full px-6 py-3 bg-electric-green text-deep-blue font-bold rounded-lg hover:bg-white transition-all duration-300 flex items-center justify-center space-x-2">
-                            <Send size={20} />
-                            <span>Enviar Mensagem</span>
-                        </button>
-                        {formStatus && <p className="text-center mt-4 text-electric-green">{formStatus}</p>}
-                    </form>
-                </div>
-                <div className="space-y-6">
+                        </div>
+        </section>
+        );
+};
+  
+
+                
+              <div className="space-y-6">
                     <div className="bg-light-blue p-6 rounded-lg">
                         <h4 className="text-xl font-bold text-white mb-4">Ou fale conosco diretamente:</h4>
                         <a href="https://wa.me/5554981650064" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-4 p-4 rounded-lg hover:bg-deep-blue transition-colors">
@@ -446,10 +424,9 @@ const ContactSection = () => {
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    );
-};
+            
+    
+
 
 // COMPONENT: Footer
 const Footer = () => (
