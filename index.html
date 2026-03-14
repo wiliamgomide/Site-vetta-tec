@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
+
+import founderImg from "@/assets/wiliam_de_pe.jpeg";
+
+const PAYMENT_URL = "https://pay.kiwify.com.br/PzsQqGC";
+const WPP_URL = "https://wa.me/5554991858913?text=Ol%C3%A1%2C%20tenho%20d%C3%BAvidas%20sobre%20o%20Vendedor%20Digital%20VettaTec%20e%20gostaria%20de%20agendar%20uma%20reuni%C3%A3o.";
+
+const Index = () => {
+  const toggleFaq = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const item = e.currentTarget.parentElement;
+    item?.classList.toggle("open");
+  };
+    <head>
   <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -18,16 +29,6 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=4221984238019466&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
-import founderImg from "@/assets/wiliam_de_pe.jpeg";
-
-const PAYMENT_URL = "https://pay.kiwify.com.br/PzsQqGC";
-const WPP_URL = "https://wa.me/5554991858913?text=Ol%C3%A1%2C%20tenho%20d%C3%BAvidas%20sobre%20o%20Vendedor%20Digital%20VettaTec%20e%20gostaria%20de%20agendar%20uma%20reuni%C3%A3o.";
-
-const Index = () => {
-  const toggleFaq = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const item = e.currentTarget.parentElement;
-    item?.classList.toggle("open");
-  };
 
   return (
     <>
