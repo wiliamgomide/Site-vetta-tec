@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-     <!-- Meta Pixel Code -->
+  <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -22,7 +22,7 @@ src="https://www.facebook.com/tr?id=4221984238019466&ev=PageView&noscript=1"
 <title>VettaTec — Inteligência que atende, automação que vende.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
 <style>
   :root {
     --verde: #00E676;
@@ -87,6 +87,13 @@ src="https://www.facebook.com/tr?id=4221984238019466&ev=PageView&noscript=1"
   }
   .badge .dot { width:8px; height:8px; border-radius:50%; background:var(--verde); animation:pulse 1.4s infinite; }
 
+  .hero-montserrat {
+    font-family: 'Montserrat', sans-serif !important;
+    font-size:clamp(2.4rem,5.5vw,4.2rem) !important;
+    font-weight:900 !important;
+    line-height:1.08 !important;
+    letter-spacing:-.03em !important;
+  }
   .hero h1 {
     font-size:clamp(2.2rem,5vw,3.8rem); font-weight:800; line-height:1.1; letter-spacing:-.02em;
     animation: fadeUp .7s .1s ease both;
@@ -185,7 +192,7 @@ src="https://www.facebook.com/tr?id=4221984238019466&ev=PageView&noscript=1"
 
   /* SOLUTION */
   .solution { background:#080f22; }
-  .sol-grid { display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center; margin-top:48px; }
+  .sol-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start; margin-top:48px; }
   @media(max-width:768px){ .sol-grid { grid-template-columns:1fr; } }
   .steps { list-style:none; display:flex; flex-direction:column; gap:22px; }
   .step { display:flex; gap:16px; }
@@ -425,6 +432,62 @@ src="https://www.facebook.com/tr?id=4221984238019466&ev=PageView&noscript=1"
     .comp-table th, .comp-table td { padding:9px 9px; }
     nav .nav-cta { font-size:.76rem; padding:8px 13px; }
   }
+
+  /* ── 3 WPP SCENARIO PHONES ── */
+  .phones-col {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .phone-wrap {
+    background: #111B21;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.07);
+    box-shadow: 0 12px 40px rgba(0,0,0,.55);
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+  }
+  .ph-header {
+    background: #1F2C33;
+    padding: 10px 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .ph-av {
+    width: 34px; height: 34px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: .78rem; color: #fff; flex-shrink: 0;
+  }
+  .ph-info { flex: 1; }
+  .ph-name { font-weight: 600; font-size: .82rem; color: #E9EDEF; }
+  .ph-sub { font-size: .62rem; color: #8696A0; }
+  .ph-time-badge {
+    background: rgba(0,230,118,.15); border: 1px solid rgba(0,230,118,.3);
+    color: #00E676; font-size: .6rem; font-weight: 700;
+    padding: 3px 8px; border-radius: 99px; white-space: nowrap;
+  }
+  .ph-body {
+    padding: 10px 10px 12px;
+    background: #0B141A;
+    display: flex; flex-direction: column; gap: 5px;
+  }
+  .ph-date { text-align: center; margin: 2px 0 6px; }
+  .ph-date span { background: #1F2C33; color: #8696A0; font-size: .62rem; padding: 3px 10px; border-radius: 6px; }
+  .ph-b {
+    max-width: 86%; padding: 7px 10px 16px; border-radius: 8px;
+    font-size: .75rem; line-height: 1.45; position: relative;
+    color: #E9EDEF; word-break: break-word;
+  }
+  .ph-b.r { background: #1F2C33; border-radius: 0 8px 8px 8px; align-self: flex-start; }
+  .ph-b.s { background: #005C4B; border-radius: 8px 0 8px 8px; align-self: flex-end; }
+  .ph-ts { position: absolute; bottom: 3px; right: 7px; font-size: .58rem; color: #8696A0; white-space: nowrap; }
+  .ph-ts.sent { color: #A9C9B4; }
+  .ph-label {
+    background: #1F2C33; padding: 6px 12px;
+    font-size: .65rem; color: #8696A0;
+    border-top: 1px solid rgba(255,255,255,.04);
+    display: flex; align-items: center; gap: 5px;
+  }
+
 </style>
 </head>
 <body>
@@ -442,10 +505,10 @@ src="https://www.facebook.com/tr?id=4221984238019466&ev=PageView&noscript=1"
   <div class="hero-content">
     <div class="badge"><span class="dot"></span> Quinzena do Consumidor — Encerra 22/03</div>
 
-    <h1>
-      Chega de <span class="strike">perder venda</span> por demora.<br/>
-      Seu negócio atende em <em>5 segundos</em>,<br/>
-      <em>24h por dia</em> — sem você mover um dedo.
+    <h1 class="hero-montserrat">
+      Chegou o <em>Vendedor Invisível.</em><br/>
+      Venda <em>24/7.</em><br/>
+      Sem você mover um dedo.
     </h1>
 
     <p class="hero-sub">
@@ -456,7 +519,7 @@ src="https://www.facebook.com/tr?id=4221984238019466&ev=PageView&noscript=1"
     <div class="promo-pill">🔥 Taxa de Implementação ZERO — Economia de R$ 1.500</div>
 
     <div class="cta-wrap">
-      <a class="btn-green" href="https://pay.kiwify.com.br/PzsQqGC">
+      <a class="btn-green" href="#oferta">
         <svg width="19" height="19" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         Garantir minha vaga com desconto
       </a>
@@ -563,24 +626,72 @@ src="https://www.facebook.com/tr?id=4221984238019466&ev=PageView&noscript=1"
         </li>
       </ul>
 
-      <div class="mock">
-        <div class="mock-bar">
-          <div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div>
-          <span style="font-size:.68rem;color:var(--cinza);margin-left:8px;">Painel VettaTec — Hoje</span>
+      <div class="phones-col">
+
+        <!-- PHONE 1: Loja de Roupas 23h -->
+        <div class="phone-wrap">
+          <div class="ph-header">
+            <div class="ph-av" style="background:#880E4F;">LR</div>
+            <div class="ph-info">
+              <div class="ph-name">Moda Bella Store 👗</div>
+              <div class="ph-sub">Loja de Roupas Femininas</div>
+            </div>
+            <div class="ph-time-badge">🌙 23:07</div>
+          </div>
+          <div class="ph-body">
+            <div class="ph-date"><span>Hoje, 23:00</span></div>
+            <div class="ph-b r">Oi! Vi um vestido no story de vocês, ainda tem disponível? 😍<span class="ph-ts">23:01</span></div>
+            <div class="ph-b s">Oi, Camila! 😊 Que ótimo que gostou! O vestido floral manga longa ainda temos sim! Disponível nos tamanhos P, M e GG. Qual a sua numeração? <span class="ph-ts sent">23:01 ✓✓</span></div>
+            <div class="ph-b r">M! Tem em outras cores também?<span class="ph-ts">23:02</span></div>
+            <div class="ph-b s">Temos em 3 cores: rosé 🌸, preto clássico e vinho 🍷. O frete é grátis para pedidos acima de R$ 149. Esse vestido está por R$ 179. Posso reservar o M pra você? 💳<span class="ph-ts sent">23:03 ✓✓</span></div>
+            <div class="ph-b r">Sim!! Quero o rosé 😍 como faço pra pagar?<span class="ph-ts">23:04</span></div>
+            <div class="ph-b s">Perfeito! Aceitamos Pix, cartão de crédito (até 3x sem juros) e boleto. Vou te enviar o link de pagamento agora mesmo 🛒✨<span class="ph-ts sent">23:05 ✓✓</span></div>
+          </div>
+          <div class="ph-label">🤖 Vendedor Digital VettaTec &nbsp;·&nbsp; ✅ Venda fechada às 23h — sem ninguém acordado</div>
         </div>
-        <div class="mock-stats">
-          <div class="ms"><div class="v">47</div><div class="l">Leads</div></div>
-          <div class="ms"><div class="v">12</div><div class="l">Reuniões</div></div>
-          <div class="ms"><div class="v">5s</div><div class="l">Resposta</div></div>
+
+        <!-- PHONE 2: Barbearia -->
+        <div class="phone-wrap">
+          <div class="ph-header">
+            <div class="ph-av" style="background:#1A237E;">BB</div>
+            <div class="ph-info">
+              <div class="ph-name">Barbearia do Corte ✂️</div>
+              <div class="ph-sub">Agendamento automático</div>
+            </div>
+            <div class="ph-time-badge">📅 Agenda</div>
+          </div>
+          <div class="ph-body">
+            <div class="ph-date"><span>Hoje, 14:30</span></div>
+            <div class="ph-b r">Oi! Quero agendar um corte com o Marcos pra essa semana<span class="ph-ts">14:31</span></div>
+            <div class="ph-b s">Olá! 😊 Que bom! O Marcos tem os seguintes horários disponíveis essa semana:<br/><br/>📅 Quarta · 16h ou 18h<br/>📅 Quinta · 10h ou 15h<br/>📅 Sexta · 09h ou 17h<br/><br/>Qual prefere? <span class="ph-ts sent">14:31 ✓✓</span></div>
+            <div class="ph-b r">Quinta às 15h tá ótimo!<span class="ph-ts">14:32</span></div>
+            <div class="ph-b s">✅ Agendado! Quinta-feira às 15h com o Marcos.<br/><br/>📍 Rua das Flores, 142<br/>⏰ Duração: ~40 min<br/><br/>Você receberá um lembrete 2h antes. Até lá! 💈<span class="ph-ts sent">14:32 ✓✓</span></div>
+          </div>
+          <div class="ph-label">🤖 Vendedor Digital VettaTec &nbsp;·&nbsp; ✅ Agendamento em 60 segundos, sem intervenção humana</div>
         </div>
-        <div class="mock-chat">
-          <div class="msg u">Oi! Quanto custa o plano?</div>
-          <div class="msg b">Olá! 👋 Temos 3 opções a partir de R$ 97/mês. Qual é o seu maior desafio com atendimento hoje?</div>
-          <div class="msg u">Preciso de algo no WhatsApp</div>
-          <div class="msg b">Perfeito! Integração total com WhatsApp, inclusive no seu número atual. Agendo uma demo de 20 min? 🗓️</div>
-          <div class="typing"><span></span><span></span><span></span></div>
+
+        <!-- PHONE 3: Imobiliária -->
+        <div class="phone-wrap">
+          <div class="ph-header">
+            <div class="ph-av" style="background:#004D40;">IM</div>
+            <div class="ph-info">
+              <div class="ph-name">ImóvelCerto RS 🏠</div>
+              <div class="ph-sub">Consultora virtual</div>
+            </div>
+            <div class="ph-time-badge">🏡 Imóveis</div>
+          </div>
+          <div class="ph-body">
+            <div class="ph-date"><span>Hoje, 11:15</span></div>
+            <div class="ph-b r">Boa tarde! Procuro apartamento 2 quartos em Porto Alegre, até R$ 400 mil. Tem alguma opção?<span class="ph-ts">11:16</span></div>
+            <div class="ph-b s">Boa tarde! 😊 Temos ótimas opções nessa faixa! Me conta um pouco mais:<br/><br/>📍 Prefere qual bairro? (Centro, Moinhos, Menino Deus, Petrópolis...)<br/>🚗 Precisa de vaga de garagem?<br/>🏢 Novo ou seminovo? <span class="ph-ts sent">11:17 ✓✓</span></div>
+            <div class="ph-b r">Menino Deus ou Petrópolis, com garagem. Pode ser seminovo<span class="ph-ts">11:18</span></div>
+            <div class="ph-b s">Perfeito! Separei 3 opções pra você:<br/><br/>🏠 <b>Apto 68m²</b> · Menino Deus · 2q · 1 vaga · R$ 370.000<br/>🏠 <b>Apto 72m²</b> · Petrópolis · 2q · 1 vaga · R$ 389.000<br/>🏠 <b>Apto 65m²</b> · Menino Deus · 2q · 2 vagas · R$ 398.000<br/><br/>Qual desses te interessou mais? Posso agendar uma visita! 📅<span class="ph-ts sent">11:19 ✓✓</span></div>
+            <div class="ph-b r">O de 72m² em Petrópolis! Quero visitar<span class="ph-ts">11:20</span></div>
+            <div class="ph-b s">✅ Ótima escolha! Nosso corretor entra em contato em até 30 min para confirmar a visita. Posso já reservar para você no sistema? 🗓️<span class="ph-ts sent">11:20 ✓✓</span></div>
+          </div>
+          <div class="ph-label">🤖 Vendedor Digital VettaTec &nbsp;·&nbsp; ✅ Lead qualificado e visita agendada automaticamente</div>
         </div>
-        <div style="text-align:center;margin-top:12px;font-size:.7rem;color:var(--verde);">🟢 Agente ativo — 24h por dia</div>
+
       </div>
     </div>
   </div>
@@ -704,7 +815,7 @@ src="https://www.facebook.com/tr?id=4221984238019466&ev=PageView&noscript=1"
       </a>
 
       <div class="secure">
-        <span>🔒 Pagamento seguro</span>
+        <span>🔒 Sem Cartão Agora</span>
         <span>✅ 90 dias de garantia</span>
         <span>📱 Seu número atual</span>
       </div>
@@ -761,7 +872,7 @@ src="https://www.facebook.com/tr?id=4221984238019466&ev=PageView&noscript=1"
           Ele sabe o que é perder cliente por falta de resposta, trabalhar 14h por dia e ainda assim sentir que está correndo atrás do prejuízo. A VettaTec nasceu dessa vivência: tecnologia de ponta, na linguagem do dono de negócio — sem jargão, sem enrolação.
         </p>
         <div class="socials">
-          <a class="soc" href="https://instagram.com/wil.i.ama_gomide" target="_blank">📸 @wil.i.ama_gomide</a>
+          <a class="soc" href="https://instagram.com/wil.i.am_gomide" target="_blank">📸 @wil.i.ama_gomide</a>
           <a class="soc" href="https://instagram.com/vetta.tec" target="_blank">📸 @vetta.tec</a>
           <a class="soc" href="https://wa.me/5554991858913" target="_blank">💬 WhatsApp</a>
         </div>
@@ -1002,7 +1113,8 @@ src="https://www.facebook.com/tr?id=4221984238019466&ev=PageView&noscript=1"
     <a href="#">Termos de Uso</a>
     <a href="https://wa.me/5554991858913">Suporte</a>
   </div>
-  <p style="margin-top:22px;font-size:.7rem;opacity:.35;">© 2026 VettaTec. Todos os direitos reservados.</p>
+  <p style="margin-top:22px;font-size:.72rem;opacity:.5;">© 2026 VettaTec. Todos os direitos reservados.</p>
+  <p style="margin-top:6px;font-size:.7rem;opacity:.38;color:var(--cinza);">Vettatec Vetta Tecnologia e Automacao Inteligente LTDA &nbsp;·&nbsp; CNPJ 65.408.045/0001-45</p>
 </footer>
 
 <!-- WPP FLOAT -->
