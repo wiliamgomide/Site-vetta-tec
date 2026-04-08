@@ -8,446 +8,527 @@
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<script>
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            display: ['Syne', 'sans-serif'],
-            body: ['DM Sans', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              green: '#00FF88',
-              'green-dim': '#00cc6a',
-              'green-glow': '#00FF8820',
-              blue: '#0A2540',
-              'blue-mid': '#0D3461',
-              'blue-bright': '#1A6EFF',
-              'blue-electric': '#00B4FF',
-              dark: '#040D1A',
-              'dark-2': '#071525',
-              'dark-3': '#0B1E33',
-              'dark-card': '#0D2035',
-            }
-          },
-          boxShadow: {
-            'glow-green': '0 0 30px #00FF8840, 0 0 60px #00FF8820',
-            'glow-blue': '0 0 30px #1A6EFF40, 0 0 60px #1A6EFF20',
-            'glow-card': '0 4px 40px #00000060, inset 0 1px 0 #ffffff08',
-          },
-          animation: {
-            'pulse-slow': 'pulse 3s cubic-bezier(0.4,0,0.6,1) infinite',
-            'float': 'float 6s ease-in-out infinite',
-            'scan': 'scan 4s linear infinite',
-            'blink': 'blink 1s step-end infinite',
-          },
-          keyframes: {
-            float: {
-              '0%,100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-12px)' },
-            },
-            scan: {
-              '0%': { top: '0%' },
-              '100%': { top: '100%' },
-            },
-            blink: {
-              '0%,100%': { opacity: '1' },
-              '50%': { opacity: '0' },
-            }
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background-color: #040D1A;
-      color: #e2e8f0;
-      font-family: 'DM Sans', sans-serif;
-      overflow-x: hidden;
-    }
-    .font-display { font-family: 'Syne', sans-serif; }
- 
-    /* Grid bg */
-    .grid-bg {
-      background-image:
-        linear-gradient(rgba(26,110,255,0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(26,110,255,0.06) 1px, transparent 1px);
-      background-size: 48px 48px;
-    }
- 
-    /* Noise overlay */
-    .noise::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      opacity: 0.4;
-    }
- 
-    /* Gradient blobs */
-    .blob-green {
-      position: absolute;
-      width: 600px; height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #00FF8818 0%, transparent 70%);
-      filter: blur(60px);
-      pointer-events: none;
-    }
-    .blob-blue {
-      position: absolute;
-      width: 500px; height: 500px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #1A6EFF18 0%, transparent 70%);
-      filter: blur(60px);
-      pointer-events: none;
-    }
- 
-    /* Glowing border card */
-    .card-glow {
-      background: #0D2035;
-      border: 1px solid rgba(26,110,255,0.2);
-      box-shadow: 0 4px 40px #00000060, inset 0 1px 0 rgba(255,255,255,0.05);
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
-    .card-glow:hover {
-      border-color: rgba(0,255,136,0.35);
-      box-shadow: 0 4px 40px #00000060, 0 0 30px #00FF8812, inset 0 1px 0 rgba(255,255,255,0.07);
-    }
- 
-    /* Green CTA button */
-    .btn-green {
-      background: linear-gradient(135deg, #00FF88, #00cc6a);
-      color: #040D1A;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      border: none;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .btn-green::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-    .btn-green:hover { transform: translateY(-2px); box-shadow: 0 8px 30px #00FF8840; }
-    .btn-green:hover::before { opacity: 1; }
- 
-    .btn-outline {
-      background: transparent;
-      color: #00FF88;
-      border: 1px solid #00FF8840;
-      font-family: 'Syne', sans-serif;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-outline:hover { border-color: #00FF88; background: #00FF8810; box-shadow: 0 0 20px #00FF8820; }
- 
-    /* Badge */
-    .badge-green {
-      background: #00FF8815;
-      border: 1px solid #00FF8830;
-      color: #00FF88;
-      font-size: 0.72rem;
-      font-family: 'Syne', sans-serif;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-    }
-    .badge-blue {
-      background: #1A6EFF15;
-      border: 1px solid #1A6EFF30;
-      color: #00B4FF;
-      font-size: 0.72rem;
-      font-family: 'Syne', sans-serif;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-    }
- 
-    /* WhatsApp bubble */
-    .wpp-bubble-in {
-      background: #1E2D3D;
-      border-radius: 12px 12px 12px 4px;
-    }
-    .wpp-bubble-out {
-      background: #005C4B;
-      border-radius: 12px 12px 4px 12px;
-    }
- 
-    /* Stat counter */
-    .stat-number {
-      font-family: 'Syne', sans-serif;
-      font-size: 3.5rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #00FF88, #00B4FF);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1;
-    }
- 
-    /* Timeline connector */
-    .timeline-line {
-      width: 2px;
-      background: linear-gradient(180deg, #00FF88, #1A6EFF, transparent);
-    }
- 
-    /* Scroll reveal */
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
- 
-    /* Section divider */
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, #1A6EFF30, #00FF8830, transparent);
-    }
- 
-    /* Scan line on hero terminal */
-    .terminal-scan {
-      position: absolute;
-      left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #00FF8860, transparent);
-      animation: scan 3s linear infinite;
-    }
- 
-    /* Hero headline highlight */
-    .highlight-green {
-      position: relative;
-      display: inline;
-    }
-    .highlight-green::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #00FF88, #00B4FF);
-      border-radius: 2px;
-    }
- 
-    /* Nav */
-    .nav-blur {
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      background: rgba(4,13,26,0.85);
-      border-bottom: 1px solid rgba(26,110,255,0.12);
-    }
- 
-    /* Comparison table */
-    .compare-bad { border-left: 3px solid #FF4444; }
-    .compare-good { border-left: 3px solid #00FF88; }
- 
-    /* Guarantee seal */
-    .seal {
-      background: conic-gradient(from 0deg, #00FF88, #00B4FF, #1A6EFF, #00FF88);
-      border-radius: 50%;
-      padding: 3px;
-    }
-    .seal-inner {
-      background: #0D2035;
-      border-radius: 50%;
-      width: 100%; height: 100%;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-    }
- 
-    @media (max-width: 768px) {
-      .stat-number { font-size: 2.5rem; }
-    }
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          verde: '#00E676',
-          'verde-dark': '#00C853',
-          azul: '#0D1B3E',
-          'azul-mid': '#132347',
-          'azul-light': '#1A3060',
-          perigo: '#FF3D57',
-          amarelo: '#FFD600',
-        },
-        fontFamily: {
-          mont: ['Montserrat','sans-serif'],
-          inter: ['Inter','sans-serif'],
-        }
-      }
-    }
-  }
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800;900&family=Cabinet+Grotesk:wght@300;400;500;700;800&display=swap" rel="stylesheet"/>
+
 <style>
-  *{box-sizing:border-box;}
-  body{font-family:'Inter',sans-serif;background:#0D1B3E;color:#F0F4FF;overflow-x:hidden;}
-  .mont{font-family:'Montserrat',sans-serif;}
-  /* noise */
-  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;}
-  /* glow */
-  .glow-verde{box-shadow:0 0 32px rgba(0,230,118,0.35);}
-  .glow-verde-sm{box-shadow:0 0 16px rgba(0,230,118,0.25);}
-  .text-glow{text-shadow:0 0 30px rgba(0,230,118,0.4);}
-  /* grid bg */
-  .grid-bg{background-image:linear-gradient(rgba(0,230,118,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,230,118,0.04) 1px,transparent 1px);background-size:44px 44px;}
-  /* gradient text */
-  .grad-text{background:linear-gradient(135deg,#00E676,#00BCD4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-  /* wpp bubble */
-  .bubble-r{background:#1F2C33;border-radius:0 10px 10px 10px;}
-  .bubble-s{background:#005C4B;border-radius:10px 0 10px 10px;}
-  .wpp-bg{background:#0B141A;}
-  .wpp-head{background:#1F2C33;}
-  /* card hover */
-  .card-hover{transition:transform .25s,box-shadow .25s,border-color .25s;}
-  .card-hover:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(0,0,0,0.5);border-color:rgba(0,230,118,0.4)!important;}
-  /* reveal */
-  .reveal{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease;}
-  .revealed{opacity:1;transform:translateY(0);}
-  /* pulse dot */
-  .pulse-dot{animation:pulseDot 1.6s infinite;}
-  @keyframes pulseDot{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.6);opacity:.5;}}
-  /* float */
-  @keyframes floatUp{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
-  .float{animation:floatUp 4s ease-in-out infinite;}
-  /* typing */
-  @keyframes blink{0%,80%,100%{opacity:.2;}40%{opacity:1;}}
-  .blink-1{animation:blink 1.2s infinite;}
-  .blink-2{animation:blink 1.2s .2s infinite;}
-  .blink-3{animation:blink 1.2s .4s infinite;}
-  /* bar fill */
-  @keyframes barFill{from{width:0;}to{width:73%;}}
-  .bar-anim{animation:barFill 1.4s ease forwards;}
-  /* scroll fade stagger */
-  .stagger-1{transition-delay:.1s;} .stagger-2{transition-delay:.2s;} .stagger-3{transition-delay:.3s;} .stagger-4{transition-delay:.4s;}
+/* ─── RESET & BASE ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --g: #00FF88;
+  --g2: #00cc6a;
+  --g-dim: rgba(0,255,136,0.12);
+  --g-glow: rgba(0,255,136,0.25);
+  --b: #0A1628;
+  --b2: #0D1E38;
+  --b3: #122040;
+  --bc: #0F1C33;
+  --blue: #1A6EFF;
+  --blue2: #00B4FF;
+  --dark: #060E1C;
+  --text: #dde6f0;
+  --muted: rgba(221,230,240,0.5);
+  --border: rgba(255,255,255,0.07);
+  --border-g: rgba(0,255,136,0.22);
+  --border-b: rgba(26,110,255,0.2);
+  --red: #FF4D6D;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  background: var(--dark);
+  color: var(--text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .syne { font-family: 'Syne', sans-serif; }
+
+/* ─── GRID BACKGROUND ─── */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(26,110,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,110,255,0.05) 1px, transparent 1px);
+  background-size: 52px 52px;
+}
+
+/* ─── NOISE ─── */
+.noise::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ─── GLOW BLOBS ─── */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  will-change: transform;
+}
+.blob-g { background: radial-gradient(circle, rgba(0,255,136,0.14) 0%, transparent 70%); }
+.blob-b { background: radial-gradient(circle, rgba(26,110,255,0.14) 0%, transparent 70%); }
+
+/* ─── GRADIENT TEXT ─── */
+.grad { background: linear-gradient(135deg, var(--g), var(--blue2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.grad-r { background: linear-gradient(135deg, var(--red), #FF8C42); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* ─── NAV ─── */
+.nav {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background: rgba(6,14,28,0.88);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ─── BADGE ─── */
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 14px;
+  border-radius: 100px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.badge-g { background: rgba(0,255,136,0.1); border: 1px solid rgba(0,255,136,0.25); color: var(--g); }
+.badge-b { background: rgba(26,110,255,0.1); border: 1px solid rgba(26,110,255,0.25); color: var(--blue2); }
+.badge-r { background: rgba(255,77,109,0.1); border: 1px solid rgba(255,77,109,0.25); color: var(--red); }
+
+/* ─── BUTTONS ─── */
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, var(--g), var(--g2));
+  color: #030A14;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  padding: 14px 28px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.22), transparent 60%);
+  opacity: 0; transition: opacity 0.2s;
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,255,136,0.35); }
+.btn-primary:hover::after { opacity: 1; }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent;
+  color: var(--g);
+  border: 1.5px solid rgba(0,255,136,0.3);
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 13px 26px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.btn-ghost:hover { border-color: var(--g); background: rgba(0,255,136,0.08); box-shadow: 0 0 24px rgba(0,255,136,0.15); }
+
+/* ─── CARDS ─── */
+.card {
+  background: linear-gradient(145deg, var(--b2), var(--bc));
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+.card:hover {
+  border-color: var(--border-g);
+  box-shadow: 0 8px 48px rgba(0,0,0,0.5), 0 0 24px rgba(0,255,136,0.08);
+  transform: translateY(-4px);
+}
+
+.card-danger {
+  background: linear-gradient(145deg, rgba(255,77,109,0.06), var(--bc));
+  border: 1px solid rgba(255,77,109,0.18);
+  border-radius: 20px;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.card-danger:hover { border-color: rgba(255,77,109,0.35); transform: translateY(-4px); }
+
+/* ─── DIVIDER ─── */
+.divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(26,110,255,0.25), rgba(0,255,136,0.25), transparent); }
+
+/* ─── SECTION LABEL ─── */
+.section-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--g);
+}
+
+/* ─── WHATSAPP ─── */
+.wpp-screen { background: #0B141A; }
+.wpp-header { background: #1F2C33; }
+.bubble-in {
+  background: #1E2D3D;
+  border-radius: 0 12px 12px 12px;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  color: #dde6f0;
+  max-width: 86%;
+}
+.bubble-out {
+  background: #005C4B;
+  border-radius: 12px 0 12px 12px;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  color: #dde6f0;
+  max-width: 86%;
+  margin-left: auto;
+}
+.msg-time { font-size: 0.62rem; color: rgba(255,255,255,0.35); margin-top: 3px; text-align: right; }
+.msg-time.green { color: #25D366; }
+
+/* ─── STAT ─── */
+.stat-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--g), var(--blue2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── TIMELINE ─── */
+.tl-line {
+  position: absolute;
+  left: 31px; top: 0; bottom: 0; width: 2px;
+  background: linear-gradient(180deg, var(--g), var(--blue), transparent);
+}
+
+/* ─── GUARANTEE SEAL ─── */
+.seal-ring {
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--g), var(--blue2), var(--blue), var(--g));
+  padding: 3px;
+  flex-shrink: 0;
+}
+.seal-core {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  background: var(--bc);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 1px;
+}
+
+/* ─── FAQ ─── */
+.faq-body { display: none; }
+.faq-body.open { display: block; }
+.faq-icon { transition: transform 0.3s; }
+.faq-icon.open { transform: rotate(45deg); }
+
+/* ─── SCROLL REVEAL ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.on { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: 0.08s; }
+.d2 { transition-delay: 0.16s; }
+.d3 { transition-delay: 0.24s; }
+.d4 { transition-delay: 0.32s; }
+
+/* ─── PULSE ─── */
+@keyframes pulse-ring { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.7); opacity: 0; } }
+.pulse { animation: pulse-ring 1.6s infinite; }
+
+/* ─── FLOAT ─── */
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.float { animation: float 5s ease-in-out infinite; }
+
+/* ─── SCAN LINE ─── */
+@keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+.scan-line {
+  position: absolute;
+  left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(0,255,136,0.5), transparent);
+  animation: scan 3.5s linear infinite;
+}
+
+/* ─── TYPING DOTS ─── */
+@keyframes td { 0%,80%,100% { opacity: 0.2; transform: scale(0.8); } 40% { opacity: 1; transform: scale(1); } }
+.td1 { animation: td 1.2s infinite; }
+.td2 { animation: td 1.2s 0.2s infinite; }
+.td3 { animation: td 1.2s 0.4s infinite; }
+
+/* ─── WPP FLOAT BTN ─── */
+@keyframes wppFloat { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-6px) scale(1.03); } }
+.wpp-float { animation: wppFloat 4s ease-in-out infinite; }
+
+/* ─── COMPARISON TABLE ─── */
+.tbl-row:nth-child(even) { background: rgba(255,255,255,0.025); }
+
+/* ─── HERO TICKER ─── */
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.ticker-track { animation: ticker 22s linear infinite; display: flex; width: max-content; }
+.ticker-track:hover { animation-play-state: paused; }
+
+/* MOBILE */
+@media (max-width: 640px) {
+  .stat-val { font-size: 2rem; }
+  .seal-ring { width: 110px; height: 110px; }
+}
 </style>
 </head>
-<body class="relative">
 
-<!-- ═══════════════════════════════ NAVBAR ═══════════════════════════════ -->
-<nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b border-verde/10" style="background:rgba(13,27,62,0.92);">
-  <div class="max-w-7xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
-   
+<body class="grid-bg noise relative">
+
+<!-- ─── AMBIENT BLOBS ─── -->
+<div class="blob blob-g" style="width:700px;height:700px;top:-200px;left:-300px;opacity:0.7;"></div>
+<div class="blob blob-b" style="width:600px;height:600px;top:700px;right:-250px;opacity:0.6;"></div>
+<div class="blob blob-g" style="width:500px;height:500px;bottom:600px;left:40%;opacity:0.4;"></div>
+<div class="blob blob-b" style="width:400px;height:400px;bottom:100px;left:-150px;opacity:0.5;"></div>
+
+<!-- ════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════ -->
+<nav class="nav fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between gap-4">
+    <!-- Logo -->
+    <div class="flex items-center gap-2.5">
+      <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,var(--g),var(--blue))">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+      <span class="syne font-bold text-white text-lg tracking-tight">Vetta<span style="color:var(--g)">Tec</span></span>
+    </div>
+
+    <!-- Links -->
+    <div class="hidden md:flex items-center gap-7 text-sm" style="color:var(--muted)">
+      <a href="#problema" class="hover:text-white transition-colors">Problema</a>
+      <a href="#comparativo" class="hover:text-white transition-colors">Solução</a>
+      <a href="#fundador" class="hover:text-white transition-colors">Fundador</a>
+      <a href="#prova" class="hover:text-white transition-colors">Resultados</a>
+    </div>
+
+    <a href="https://wa.me/5554981060461?text=Quero%20minha%20Análise%20de%20Gargalo%20Gratuita" target="_blank" class="btn-primary text-sm" style="padding:10px 18px;border-radius:10px">
+      Análise Gratuita
+    </a>
   </div>
 </nav>
 
-<!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
-<section class="relative min-h-screen flex items-center justify-center pt-24 pb-16 px-5 overflow-hidden grid-bg">
-  <div class="absolute inset-0" style="background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,230,118,.1) 0%,transparent 65%),radial-gradient(ellipse 50% 40% at 85% 90%,rgba(0,188,212,.08) 0%,transparent 60%);"></div>
+<!-- ════════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<section class="relative min-h-screen flex items-center justify-center pt-28 pb-20 px-5 overflow-hidden">
+  <div class="absolute inset-0" style="background:radial-gradient(ellipse 90% 60% at 50% -10%, rgba(0,255,136,0.09) 0%, transparent 65%);"></div>
+
   <div class="relative z-10 max-w-5xl mx-auto text-center">
-    <div class="inline-flex items-center gap-2 bg-verde/10 border border-verde/25 rounded-full px-4 py-1.5 mb-8 text-xs font-semibold text-verde tracking-widest uppercase">
-      <span class="w-2 h-2 rounded-full bg-verde pulse-dot"></span>
+
+    <!-- Badge -->
+    <div class="badge badge-g mb-8 reveal">
+      <span class="w-2 h-2 rounded-full pulse" style="background:var(--g)"></span>
       Vendedor Invisível — Vagas Limitadas
     </div>
 
-    <h1 class="mont font-black leading-[1.05] tracking-tight mb-6" style="font-size:clamp(2rem,5vw,3.8rem);">
-      O Único <span class="grad-text text-glow">Motor de Conversão Inteligente</span><br/>
-      que Transforma Mensagens Ignoradas<br/>
-      em <span class="text-verde">Oportunidades Qualificadas</span><br/>
-      <span class="text-white/60 text-[0.7em] font-bold">— Sem Robôs Genéricos e Sem Contratar Ninguém. Implementação em 7 Dias.</span>
+    <!-- Headline -->
+    <h1 class="font-black leading-[1.06] tracking-tight text-white mb-5 reveal" style="font-size:clamp(2.2rem,5.5vw,4rem);">
+      O Único <span class="grad">Motor de Conversão</span><br/>
+      Inteligente que Transforma<br/>
+      Mensagens Ignoradas em<br/>
+      <span style="color:var(--g)">Oportunidades Qualificadas</span>
     </h1>
-
-    <p class="text-lg md:text-xl text-white/65 max-w-2xl mx-auto mb-10 leading-relaxed">
-      Pare de deixar dinheiro na mesa. Garanta resposta em <strong class="text-verde">menos de 5 segundos, 24/7</strong>, com um agente treinado no DNA do seu negócio.
+    <p class="syne font-semibold text-2xl mb-3 reveal" style="color:rgba(221,230,240,0.6)">
+      — Sem Robôs Genéricos. Sem Contratar Ninguém. <span style="color:var(--blue2)">Em 7 Dias.</span>
     </p>
 
-    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-      <a href="#oferta" class="mont font-black text-lg px-10 py-4 rounded-xl bg-verde text-azul glow-verde hover:bg-verde-dark transition-all hover:-translate-y-1 w-full sm:w-auto text-center">
-        Quero meu Vendedor Invisível →
+    <!-- Sub -->
+    <p class="text-lg max-w-2xl mx-auto mb-10 leading-relaxed reveal" style="color:var(--muted)">
+      Pare de deixar dinheiro na mesa. Resposta em <strong style="color:var(--g)">menos de 5 segundos, 24/7</strong> — com um agente treinado no DNA do seu negócio.
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-14 reveal">
+      <a href="https://wa.me/5554981060461?text=Quero%20minha%20Análise%20de%20Gargalo%20Gratuita" target="_blank" class="btn-primary text-base">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Quero Minha Análise Gratuita
       </a>
-      <a href="#problema" class="mont font-bold text-base px-8 py-4 rounded-xl border border-verde/30 text-verde hover:bg-verde/8 transition-all w-full sm:w-auto text-center">
-        Como funciona?
-      </a>
+      <a href="#problema" class="btn-ghost text-base">Ver Como Funciona</a>
     </div>
 
-    <div class="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-white/50">
-      <span class="flex items-center gap-1.5"><span class="text-verde">✓</span> Resposta em 5 segundos</span>
-      <span class="flex items-center gap-1.5"><span class="text-verde">✓</span> No ar em 7 dias</span>
-      <span class="flex items-center gap-1.5"><span class="text-verde">✓</span> 90 dias de garantia</span>
-      <span class="flex items-center gap-1.5"><span class="text-verde">✓</span> Taxa de implementação ZERO</span>
+    <!-- Trust pills -->
+    <div class="flex flex-wrap justify-center gap-x-7 gap-y-2.5 text-sm reveal" style="color:var(--muted)">
+      <span class="flex items-center gap-1.5"><span style="color:var(--g)">✓</span> Resposta em 5 segundos</span>
+      <span class="flex items-center gap-1.5"><span style="color:var(--g)">✓</span> No ar em 7 dias</span>
+      <span class="flex items-center gap-1.5"><span style="color:var(--g)">✓</span> 90 dias de garantia</span>
+      <span class="flex items-center gap-1.5"><span style="color:var(--g)">✓</span> Implementação gratuita</span>
     </div>
 
-    
+    <!-- Terminal mockup -->
+    <div class="mt-16 max-w-2xl mx-auto reveal" style="border-radius:20px;overflow:hidden;border:1px solid var(--border);box-shadow:0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)">
+      <!-- Terminal bar -->
+      <div class="flex items-center gap-2 px-5 py-3.5" style="background:#0D1E38;border-bottom:1px solid var(--border)">
+        <span class="w-3 h-3 rounded-full" style="background:#FF5F57"></span>
+        <span class="w-3 h-3 rounded-full" style="background:#FEBC2E"></span>
+        <span class="w-3 h-3 rounded-full" style="background:#28C840"></span>
+        <span class="syne text-xs ml-3" style="color:rgba(255,255,255,0.3)">VettaTec Agent — Painel de Conversão</span>
+        <span class="badge badge-g ml-auto" style="padding:3px 10px;font-size:0.6rem">
+          <span class="w-1.5 h-1.5 rounded-full pulse" style="background:var(--g)"></span>ATIVO
+        </span>
+      </div>
+      <div class="scan-line"></div>
+      <!-- Terminal body -->
+      <div class="p-6 space-y-3 text-left font-mono text-sm" style="background:#060E1C">
+        <div style="color:rgba(255,255,255,0.3)">// 23:47 — Nova mensagem recebida no WhatsApp</div>
+        <div><span style="color:var(--blue2)">[Lead]</span> <span style="color:var(--text)">"Boa noite, quanto custa o sistema de energia solar?"</span></div>
+        <div style="color:rgba(255,255,255,0.3)">// IA processando em 1.2s...</div>
+        <div><span style="color:var(--g)">[VettaTec IA]</span> <span style="color:var(--text)">"Boa noite! 🌱 Que ótima decisão. Pra te dar o melhor custo-benefício: qual o valor médio da sua conta de luz por mês?"</span></div>
+        <div><span style="color:var(--blue2)">[Lead]</span> <span style="color:var(--text)">"R$ 480 aqui em Passo Fundo"</span></div>
+        <div><span style="color:var(--g)">[VettaTec IA]</span> <span style="color:var(--text)">"Perfeito! Com esse valor o retorno é em menos de 4 anos. Seu telhado é cerâmica, metálico ou laje?"</span></div>
+        <div class="flex items-center gap-2 pt-1">
+          <span style="color:var(--g)">[VettaTec IA]</span>
+          <span style="color:rgba(255,255,255,0.4)">digitando</span>
+          <span class="td1 w-1.5 h-1.5 rounded-full inline-block" style="background:var(--g)"></span>
+          <span class="td2 w-1.5 h-1.5 rounded-full inline-block" style="background:var(--g)"></span>
+          <span class="td3 w-1.5 h-1.5 rounded-full inline-block" style="background:var(--g)"></span>
+        </div>
+        <div class="flex items-center justify-between pt-2" style="border-top:1px solid var(--border);font-size:0.72rem;color:rgba(255,255,255,0.28)">
+          <span>Lead qualificado em <strong style="color:var(--g)">4 mensagens</strong></span>
+          <span>Tempo de resposta: <strong style="color:var(--g)">1.2s</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!-- ═══════════════════════════════ STATS BAR ═══════════════════════════════ -->
-<div class="relative z-10 border-y border-verde/10 bg-azul-mid/60 backdrop-blur">
-  <div class="max-w-6xl mx-auto px-5 py-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-    <div><div class="mont font-black text-3xl text-verde">5s</div><div class="text-xs text-white/50 mt-1">Tempo de resposta</div></div>
-    <div><div class="mont font-black text-3xl text-verde">24/7</div><div class="text-xs text-white/50 mt-1">Disponibilidade</div></div>
-    <div><div class="mont font-black text-3xl text-verde">7 dias</div><div class="text-xs text-white/50 mt-1">Para estar no ar</div></div>
-    <div><div class="mont font-black text-3xl text-verde">R$144k</div><div class="text-xs text-white/50 mt-1">Perdidos por ano sem IA</div></div>
+<!-- ─── STATS TICKER ─── -->
+<div style="background:var(--b2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;padding:20px 0;">
+  <div class="ticker-track gap-16 items-center" style="display:flex;">
+    <!-- duplicate for infinite loop -->
+    <template id="ticker-items">
+      <span class="syne font-black text-2xl" style="color:var(--g);white-space:nowrap">5s</span>
+      <span class="text-sm font-medium" style="color:var(--muted);white-space:nowrap">Tempo de Resposta</span>
+      <span style="color:var(--border-b)">✦</span>
+      <span class="syne font-black text-2xl" style="color:var(--g);white-space:nowrap">24/7</span>
+      <span class="text-sm font-medium" style="color:var(--muted);white-space:nowrap">Disponibilidade</span>
+      <span style="color:var(--border-b)">✦</span>
+      <span class="syne font-black text-2xl" style="color:var(--g);white-space:nowrap">7 dias</span>
+      <span class="text-sm font-medium" style="color:var(--muted);white-space:nowrap">Para Estar no Ar</span>
+      <span style="color:var(--border-b)">✦</span>
+      <span class="syne font-black text-2xl" style="color:var(--g);white-space:nowrap">R$144k</span>
+      <span class="text-sm font-medium" style="color:var(--muted);white-space:nowrap">Perdidos/Ano Sem IA</span>
+      <span style="color:var(--border-b)">✦</span>
+      <span class="syne font-black text-2xl" style="color:var(--g);white-space:nowrap">90 dias</span>
+      <span class="text-sm font-medium" style="color:var(--muted);white-space:nowrap">Garantia Blindada</span>
+      <span style="color:var(--border-b)">✦</span>
+      <span class="syne font-black text-2xl" style="color:var(--g);white-space:nowrap">78%</span>
+      <span class="text-sm font-medium" style="color:var(--muted);white-space:nowrap">Compram de Quem Responde Primeiro</span>
+      <span style="color:var(--border-b)">✦</span>
+    </template>
   </div>
 </div>
 
-<!-- ═══════════════════════════════ PROBLEMA ═══════════════════════════════ -->
-<section id="problema" class="relative z-10 py-24 px-5">
+<!-- ════════════════════════════════════════
+     O PROBLEMA
+════════════════════════════════════════ -->
+<section id="problema" class="relative py-28 px-5">
   <div class="max-w-5xl mx-auto">
+
     <div class="text-center mb-16 reveal">
-      <div class="text-xs text-verde font-bold tracking-widest uppercase mb-3">📉 O Problema</div>
-      <h2 class="mont font-black text-4xl md:text-5xl leading-tight mb-5">A <span class="text-perigo">Asfixia Manual</span> que<br/>está destruindo suas vendas</h2>
-      <p class="text-white/60 text-lg max-w-2xl mx-auto">Imagine um restaurante badalado, com 50 mesas lotadas — e apenas um garçom para atender todos. As primeiras mesas recebem atenção. As outras esperam, irritam-se e pedem a conta antes de comer.</p>
+      <p class="section-label mb-3">📉 O Problema</p>
+      <h2 class="font-black text-4xl md:text-5xl leading-tight text-white mb-5">
+        A <span class="grad-r">Asfixia Manual</span> que está<br/>destruindo suas vendas em silêncio
+      </h2>
+      <p class="text-lg max-w-2xl mx-auto leading-relaxed" style="color:var(--muted)">
+        Existe um mecanismo invisível corroendo seu faturamento — e você provavelmente nem percebeu ainda.
+      </p>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-6 mb-16">
-      <div class="reveal stagger-1 bg-red-950/30 border border-red-500/20 rounded-2xl p-6 text-center card-hover">
+    <!-- 3 pain cards -->
+    <div class="grid md:grid-cols-3 gap-5 mb-14">
+      <div class="card-danger p-7 reveal d1 text-center">
         <div class="text-5xl mb-4">😰</div>
-        <div class="mont font-black text-4xl text-red-400 mb-2">2</div>
-        <p class="text-white/60 text-sm leading-relaxed">vendas perdidas por dia<br/>pela demora no atendimento</p>
+        <div class="syne font-black text-4xl mb-2" style="color:var(--red)">2</div>
+        <p class="text-sm leading-relaxed" style="color:var(--muted)">vendas perdidas por dia<br/>pela demora no atendimento</p>
       </div>
-      <div class="reveal stagger-2 bg-red-950/30 border border-red-500/20 rounded-2xl p-6 text-center card-hover">
+      <div class="card-danger p-7 reveal d2 text-center">
         <div class="text-5xl mb-4">💸</div>
-        <div class="mont font-black text-4xl text-red-400 mb-2">R$1k</div>
-        <p class="text-white/60 text-sm leading-relaxed">ticket médio perdido<br/>por atendimento tardio</p>
+        <div class="syne font-black text-4xl mb-2" style="color:var(--red)">R$1k</div>
+        <p class="text-sm leading-relaxed" style="color:var(--muted)">ticket médio perdido<br/>por atendimento tardio</p>
       </div>
-      <div class="reveal stagger-3 bg-red-950/30 border border-red-500/20 rounded-2xl p-6 text-center card-hover">
+      <div class="card-danger p-7 reveal d3 text-center">
         <div class="text-5xl mb-4">🩸</div>
-        <div class="mont font-black text-4xl text-red-400 mb-2">R$144k</div>
-        <p class="text-white/60 text-sm leading-relaxed">jogados fora por ano<br/>sem você perceber</p>
+        <div class="syne font-black text-4xl mb-2" style="color:var(--red)">R$144k</div>
+        <p class="text-sm leading-relaxed" style="color:var(--muted)">jogados fora por ano<br/>sem você perceber</p>
       </div>
     </div>
 
-    <!-- Analogy -->
-    <div class="reveal bg-gradient-to-br from-azul-mid to-azul-light border border-white/8 rounded-3xl p-8 md:p-12">
+    <!-- Analogia -->
+    <div class="card p-8 md:p-12 reveal" style="background:linear-gradient(135deg,rgba(13,30,56,0.8),rgba(15,28,51,0.9))">
       <div class="grid md:grid-cols-2 gap-10 items-center">
         <div>
-          <h3 class="mont font-black text-2xl text-white mb-4">🍽️ A analogia do restaurante</h3>
-          <p class="text-white/65 leading-relaxed mb-4">Seu WhatsApp é esse restaurante. Cada mensagem que chega é um cliente sentado esperando. Quando você está ocupado, dormindo, ou em reunião — o "garçom" simplesmente não aparece.</p>
-          <p class="text-white/65 leading-relaxed mb-6">O resultado? O cliente pede a conta (sem pagar), vai para o concorrente e você <strong class="text-perigo">perde a venda sem nem saber que a perdeu.</strong></p>
-          <div class="bg-perigo/10 border border-perigo/25 rounded-xl p-4">
-            <p class="text-perigo font-bold text-sm">⚠️ Estudos mostram que 78% dos clientes compram de quem responde primeiro. Se você demorar mais de 5 minutos, a chance de fechar cai 80%.</p>
+          <h3 class="font-black text-2xl text-white mb-4">🍽️ A Analogia do Restaurante</h3>
+          <p class="leading-relaxed mb-4" style="color:var(--muted)">
+            Um restaurante cheio, <strong class="text-white">50 mesas lotadas</strong>. Clientes com fome, prontos para pedir. Mas há <strong style="color:var(--red)">apenas 1 garçom</strong> para todas elas.
+          </p>
+          <p class="leading-relaxed mb-4" style="color:var(--muted)">
+            Mesa 3 perde a paciência. Mesa 12 pede a conta sem jantar. Mesa 27 abre o Google e busca o concorrente.
+          </p>
+          <p class="leading-relaxed mb-6" style="color:var(--muted)">
+            <strong class="text-white">Seu WhatsApp é esse restaurante.</strong> Cada mensagem ignorada é uma mesa que vai embora.
+          </p>
+          <div class="p-4 rounded-xl" style="background:rgba(255,77,109,0.08);border:1px solid rgba(255,77,109,0.2)">
+            <p class="text-sm font-semibold" style="color:var(--red)">⚠️ 78% dos clientes compram de quem responde primeiro. Demora mais de 5 min? Chance de fechar cai <strong>80%.</strong></p>
           </div>
         </div>
-        <div class="space-y-4">
-          <div class="flex items-start gap-3 bg-white/5 rounded-xl p-4">
-            <span class="text-2xl">🕐</span>
-            <div><p class="font-semibold text-sm text-white mb-1">00:00 — Lead entra no WhatsApp</p><p class="text-xs text-white/50">Interesse alto. Pronto para comprar.</p></div>
+
+        <!-- Timeline da perda -->
+        <div class="space-y-3">
+          <div class="flex items-start gap-4 p-4 rounded-xl" style="background:var(--g-dim);border:1px solid var(--border-g)">
+            <span class="text-xl">🟢</span>
+            <div>
+              <p class="font-semibold text-sm text-white">00:00 — Lead chega no WhatsApp</p>
+              <p class="text-xs mt-0.5" style="color:var(--muted)">Interesse máximo. Pronto para comprar.</p>
+            </div>
           </div>
-          <div class="flex items-start gap-3 bg-white/5 rounded-xl p-4">
-            <span class="text-2xl">😐</span>
-            <div><p class="font-semibold text-sm text-white mb-1">+5 min — Sem resposta</p><p class="text-xs text-white/50">Começa a considerar alternativas.</p></div>
+          <div class="flex items-start gap-4 p-4 rounded-xl" style="background:rgba(255,255,255,0.03);border:1px solid var(--border)">
+            <span class="text-xl">🟡</span>
+            <div>
+              <p class="font-semibold text-sm text-white">+5 min — Sem resposta</p>
+              <p class="text-xs mt-0.5" style="color:var(--muted)">Começa a pesquisar alternativas.</p>
+            </div>
           </div>
-          <div class="flex items-start gap-3 bg-white/5 rounded-xl p-4">
-            <span class="text-2xl">😤</span>
-            <div><p class="font-semibold text-sm text-white mb-1">+15 min — Frustração</p><p class="text-xs text-white/50">Abre o WhatsApp do concorrente.</p></div>
+          <div class="flex items-start gap-4 p-4 rounded-xl" style="background:rgba(255,255,255,0.03);border:1px solid var(--border)">
+            <span class="text-xl">🟠</span>
+            <div>
+              <p class="font-semibold text-sm text-white">+15 min — Frustração</p>
+              <p class="text-xs mt-0.5" style="color:var(--muted)">Abre o WhatsApp do concorrente.</p>
+            </div>
           </div>
-          <div class="flex items-start gap-3 bg-red-950/40 border border-red-500/20 rounded-xl p-4">
-            <span class="text-2xl">💀</span>
-            <div><p class="font-semibold text-sm text-red-400 mb-1">+30 min — Venda perdida para sempre</p><p class="text-xs text-white/50">Comprou no concorrente. Tchau!</p></div>
+          <div class="flex items-start gap-4 p-4 rounded-xl" style="background:rgba(255,77,109,0.08);border:1px solid rgba(255,77,109,0.2)">
+            <span class="text-xl">💀</span>
+            <div>
+              <p class="font-semibold text-sm" style="color:var(--red)">+30 min — Venda perdida para sempre</p>
+              <p class="text-xs mt-0.5" style="color:var(--muted)">Comprou no concorrente. Sem chance de recuperar.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -455,341 +536,284 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════ COMPARATIVO ═══════════════════════════════ -->
-<section class="relative z-10 py-24 px-5 bg-azul-mid/40">
+<div class="divider mx-8"></div>
+
+<!-- ════════════════════════════════════════
+     COMPARATIVO
+════════════════════════════════════════ -->
+<section id="comparativo" class="relative py-28 px-5">
+  <div class="blob blob-b" style="width:500px;height:500px;top:0;left:-200px;opacity:0.4;"></div>
   <div class="max-w-6xl mx-auto">
+
     <div class="text-center mb-16 reveal">
-      <div class="text-xs text-verde font-bold tracking-widest uppercase mb-3">⚡ A Diferença</div>
-      <h2 class="mont font-black text-4xl md:text-5xl leading-tight">Robô Burro <span class="text-white/30">vs</span> <span class="text-verde">Atendimento Quântico</span></h2>
+      <p class="section-label mb-3">⚡ A Solução</p>
+      <h2 class="font-black text-4xl md:text-5xl leading-tight text-white mb-4">
+        Robô Burro <span style="color:var(--muted)">vs</span> <span style="color:var(--g)">Atendimento Quântico</span>
+      </h2>
+      <p class="text-lg" style="color:var(--muted)">O mercado te ofereceu menus numéricos. Nós construímos um vendedor.</p>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-8 mb-16">
-      <!-- LADO A: Robô Burro -->
-      <div class="reveal stagger-1 bg-red-950/20 border border-red-500/25 rounded-3xl p-8">
+    <!-- Side-by-side comparison -->
+    <div class="grid md:grid-cols-2 gap-7 mb-16">
+      <!-- Robô Burro -->
+      <div class="card-danger p-7 reveal d1">
         <div class="flex items-center gap-3 mb-6">
-          <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center text-xl">🤡</div>
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style="background:rgba(255,77,109,0.15)">🤡</div>
           <div>
-            <h3 class="mont font-black text-xl text-red-400">Robô Burro</h3>
-            <p class="text-xs text-white/40">Chatbot genérico</p>
+            <h3 class="syne font-black text-lg" style="color:var(--red)">Robô Burro</h3>
+            <p class="text-xs" style="color:var(--muted)">Menu de "Digite 1 ou 2"</p>
           </div>
         </div>
-        <!-- WPP Robô Burro -->
-        <div class="wpp-bg rounded-2xl overflow-hidden border border-white/5 mb-6">
-          <div class="wpp-head px-4 py-3 flex items-center gap-3">
+        <!-- WPP mockup -->
+        <div class="wpp-screen rounded-2xl overflow-hidden mb-6" style="border:1px solid var(--border)">
+          <div class="wpp-header px-4 py-3 flex items-center gap-3">
             <div class="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-xs font-bold">🤖</div>
-            <div><p class="text-white text-sm font-semibold">Atendimento Loja X</p><p class="text-xs text-green-400">online</p></div>
+            <div><p class="text-white text-sm font-semibold">Atendimento Loja X</p><p class="text-xs" style="color:#25D366">online</p></div>
           </div>
-          <div class="p-4 space-y-3">
-            <div class="bubble-r px-4 py-2.5 text-sm text-white max-w-[85%]">Olá! Gostaria de informações sobre os planos.</div>
-            <div class="bubble-s px-4 py-2.5 text-sm text-white ml-auto max-w-[85%]">
-              Bem-vindo! Por favor, escolha uma opção:<br/>
-              1️⃣ Informações sobre produtos<br/>
-              2️⃣ Preços e condições<br/>
-              3️⃣ Falar com atendente<br/>
-              4️⃣ Sair
-            </div>
-            <div class="bubble-r px-4 py-2.5 text-sm text-white max-w-[85%]">2</div>
-            <div class="bubble-s px-4 py-2.5 text-sm text-white ml-auto max-w-[85%]">
-              Você selecionou a opção 2. Escolha uma opção:<br/>
-              1️⃣ Ver tabela de preços<br/>
-              2️⃣ Condições de pagamento<br/>
-              3️⃣ Voltar ao menu
-            </div>
-            <div class="bubble-r px-4 py-2.5 text-sm text-white max-w-[85%]">Para que serve isso? Quero falar com alguém!</div>
-            <div class="bubble-s px-4 py-2.5 text-sm text-white ml-auto max-w-[85%]">Desculpe, não entendi. Por favor, escolha uma das opções: 1, 2, 3 ou 4.</div>
-            <div class="bubble-r px-4 py-2.5 text-sm text-red-300 max-w-[85%]">Vou procurar outro lugar 😤</div>
+          <div class="p-4 space-y-2.5">
+            <div class="bubble-in">Olá! Gostaria de informações sobre os planos.<div class="msg-time">21:41</div></div>
+            <div class="bubble-out">Bem-vindo! Escolha uma opção:<br/>1️⃣ Informações<br/>2️⃣ Preços<br/>3️⃣ Atendente<br/>4️⃣ Sair<div class="msg-time green">21:41 ✓✓</div></div>
+            <div class="bubble-in">2<div class="msg-time">21:42</div></div>
+            <div class="bubble-out">Você selecionou a opção 2:<br/>1️⃣ Ver tabela<br/>2️⃣ Pagamento<br/>3️⃣ Voltar<div class="msg-time green">21:42 ✓✓</div></div>
+            <div class="bubble-in">Para que serve isso? Quero falar com alguém!<div class="msg-time">21:43</div></div>
+            <div class="bubble-out">Desculpe, não entendi. Escolha: 1, 2, 3 ou 4.<div class="msg-time green">21:43 ✓✓</div></div>
+            <div class="bubble-in" style="background:rgba(255,77,109,0.15)">Vou procurar outro lugar 😤<div class="msg-time">21:44</div></div>
           </div>
         </div>
         <ul class="space-y-2">
-          <li class="flex items-start gap-2 text-sm text-white/60"><span class="text-red-400 mt-0.5">✗</span>Menus numéricos que irritam e esfriamm a venda</li>
-          <li class="flex items-start gap-2 text-sm text-white/60"><span class="text-red-400 mt-0.5">✗</span>Não entende perguntas abertas</li>
-          <li class="flex items-start gap-2 text-sm text-white/60"><span class="text-red-400 mt-0.5">✗</span>Não conhece seu produto nem seu cliente</li>
-          <li class="flex items-start gap-2 text-sm text-white/60"><span class="text-red-400 mt-0.5">✗</span>Frustra o lead antes de qualificar</li>
-          <li class="flex items-start gap-2 text-sm text-white/60"><span class="text-red-400 mt-0.5">✗</span>Você ainda precisa resolver tudo manualmente</li>
+          <li class="flex items-start gap-2 text-sm" style="color:var(--muted)"><span style="color:var(--red)">✗</span> Menus que irritam e esfriamento a venda</li>
+          <li class="flex items-start gap-2 text-sm" style="color:var(--muted)"><span style="color:var(--red)">✗</span> Não entende perguntas abertas</li>
+          <li class="flex items-start gap-2 text-sm" style="color:var(--muted)"><span style="color:var(--red)">✗</span> Genérico — não conhece seu produto</li>
+          <li class="flex items-start gap-2 text-sm" style="color:var(--muted)"><span style="color:var(--red)">✗</span> Frustra o lead antes de qualificar</li>
+          <li class="flex items-start gap-2 text-sm" style="color:var(--muted)"><span style="color:var(--red)">✗</span> Você ainda resolve tudo manualmente</li>
         </ul>
       </div>
 
-      <!-- LADO B: Atendimento Quântico -->
-      <div class="reveal stagger-2 bg-verde/5 border border-verde/25 rounded-3xl p-8">
+      <!-- Atendimento Quântico -->
+      <div class="card p-7 reveal d2" style="border-color:var(--border-g);background:linear-gradient(145deg,rgba(13,30,56,0.9),rgba(0,255,136,0.03))">
         <div class="flex items-center gap-3 mb-6">
-          <div class="w-10 h-10 rounded-full bg-verde/20 flex items-center justify-center text-xl">🧠</div>
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style="background:rgba(0,255,136,0.15)">🧠</div>
           <div>
-            <h3 class="mont font-black text-xl text-verde">Atendimento Quântico VettaTec</h3>
-            <p class="text-xs text-white/40">IA treinada no seu negócio</p>
+            <h3 class="syne font-black text-lg" style="color:var(--g)">Atendimento Quântico VettaTec</h3>
+            <p class="text-xs" style="color:var(--muted)">IA treinada no seu negócio</p>
           </div>
         </div>
-        <!-- WPP Energia Solar qualificação -->
-        <div class="wpp-bg rounded-2xl overflow-hidden border border-verde/10 mb-6">
-          <div class="wpp-head px-4 py-3 flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-green-800 flex items-center justify-center text-xs font-bold text-white">VS</div>
-            <div><p class="text-white text-sm font-semibold">VettaTec Solar RS</p><p class="text-xs text-green-400">🟢 Agente ativo 24/7</p></div>
+        <!-- WPP mockup -->
+        <div class="wpp-screen rounded-2xl overflow-hidden mb-6" style="border:1px solid rgba(0,255,136,0.15)">
+          <div class="wpp-header px-4 py-3 flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white" style="background:#1B4332">VS</div>
+            <div><p class="text-white text-sm font-semibold">VettaTec Solar RS</p><p class="text-xs" style="color:#25D366">🟢 Agente ativo 24/7</p></div>
           </div>
-          <div class="p-4 space-y-3">
-            <div class="bubble-r px-4 py-2.5 text-sm text-white max-w-[85%]">Boa noite! Queria saber sobre energia solar pra minha casa aqui em Passo Fundo.<span class="block text-right text-xs text-gray-400 mt-1">21:47</span></div>
-            <div class="bubble-s px-4 py-2.5 text-sm text-white ml-auto max-w-[85%]">Boa noite! 😊 Que ótimo, Passo Fundo tem excelente índice solar! Pra te dar uma estimativa precisa de economia, me conta: qual é sua conta de luz média por mês? ⚡<span class="block text-right text-xs text-green-300 mt-1">21:47 ✓✓</span></div>
-            <div class="bubble-r px-4 py-2.5 text-sm text-white max-w-[85%]">Fica em torno de R$480 por mês<span class="block text-right text-xs text-gray-400 mt-1">21:48</span></div>
-            <div class="bubble-s px-4 py-2.5 text-sm text-white ml-auto max-w-[85%]">Perfeito! Com R$480/mês você economizaria entre R$350–400/mês com solar. E o seu telhado é de que material? Telha cerâmica, metálica ou laje? 🏠<span class="block text-right text-xs text-green-300 mt-1">21:48 ✓✓</span></div>
-            <div class="bubble-r px-4 py-2.5 text-sm text-white max-w-[85%]">Cerâmica</div>
-            <div class="bubble-s px-4 py-2.5 text-sm text-white ml-auto max-w-[85%]">Excelente! Telha cerâmica é ideal. Seu sistema teria retorno em 3-4 anos e vida útil de 25 anos. Posso agendar uma visita técnica gratuita essa semana? 📅<span class="block text-right text-xs text-green-300 mt-1">21:49 ✓✓</span></div>
-            <div class="flex gap-1 px-4 py-2">
-              <span class="w-2 h-2 rounded-full bg-verde blink-1"></span>
-              <span class="w-2 h-2 rounded-full bg-verde blink-2"></span>
-              <span class="w-2 h-2 rounded-full bg-verde blink-3"></span>
+          <div class="p-4 space-y-2.5">
+            <div class="bubble-in">Boa noite! Queria saber sobre energia solar pra minha casa em Passo Fundo.<div class="msg-time">21:47</div></div>
+            <div class="bubble-out">Boa noite! 😊 Passo Fundo tem ótimo índice solar! Pra te dar a estimativa certa: qual o valor médio da sua conta de luz? ⚡<div class="msg-time green">21:47 ✓✓</div></div>
+            <div class="bubble-in">Fica em torno de R$480 por mês<div class="msg-time">21:48</div></div>
+            <div class="bubble-out">Perfeito! Com R$480/mês você economiza R$350–400/mês. Seu telhado é cerâmica, metálico ou laje? 🏠<div class="msg-time green">21:48 ✓✓</div></div>
+            <div class="bubble-in">Cerâmica<div class="msg-time">21:49</div></div>
+            <div class="bubble-out">Ideal! Retorno em 3–4 anos, vida útil de 25 anos. Posso agendar uma visita técnica gratuita essa semana? 📅<div class="msg-time green">21:49 ✓✓</div></div>
+            <div class="flex gap-1 px-3 py-2 items-center">
+              <span class="td1 w-2 h-2 rounded-full inline-block" style="background:var(--g)"></span>
+              <span class="td2 w-2 h-2 rounded-full inline-block" style="background:var(--g)"></span>
+              <span class="td3 w-2 h-2 rounded-full inline-block" style="background:var(--g)"></span>
             </div>
           </div>
         </div>
         <ul class="space-y-2">
-          <li class="flex items-start gap-2 text-sm text-white/70"><span class="text-verde mt-0.5">✓</span>Pergunta e qualifica com linguagem humana</li>
-          <li class="flex items-start gap-2 text-sm text-white/70"><span class="text-verde mt-0.5">✓</span>Treinado no seu produto, cidade e cliente</li>
-          <li class="flex items-start gap-2 text-sm text-white/70"><span class="text-verde mt-0.5">✓</span>Responde às 23h com a mesma energia que de manhã</li>
-          <li class="flex items-start gap-2 text-sm text-white/70"><span class="text-verde mt-0.5">✓</span>Agenda reuniões e visitas automaticamente</li>
-          <li class="flex items-start gap-2 text-sm text-white/70"><span class="text-verde mt-0.5">✓</span>Você só entra para fechar o negócio</li>
+          <li class="flex items-start gap-2 text-sm" style="color:var(--muted)"><span style="color:var(--g)">✓</span> Qualifica com linguagem humana natural</li>
+          <li class="flex items-start gap-2 text-sm" style="color:var(--muted)"><span style="color:var(--g)">✓</span> Treinado no seu produto, cidade e cliente</li>
+          <li class="flex items-start gap-2 text-sm" style="color:var(--muted)"><span style="color:var(--g)">✓</span> Atende às 23h com a mesma energia de manhã</li>
+          <li class="flex items-start gap-2 text-sm" style="color:var(--muted)"><span style="color:var(--g)">✓</span> Agenda visitas e reuniões automaticamente</li>
+          <li class="flex items-start gap-2 text-sm" style="color:var(--muted)"><span style="color:var(--g)">✓</span> Você só entra para fechar o negócio</li>
         </ul>
       </div>
     </div>
 
-    <!-- 3 WPP scenarios -->
-    <div class="text-center mb-10 reveal">
-      <h3 class="mont font-black text-2xl text-white mb-2">Veja o Atendimento Quântico em ação</h3>
-      <p class="text-white/50 text-sm">3 segmentos reais. Vendas reais. Sem você fazer nada.</p>
+    <!-- Full feature table -->
+    <div class="card reveal" style="overflow:hidden">
+      <div class="px-7 py-5" style="border-bottom:1px solid var(--border)">
+        <h3 class="syne font-bold text-lg text-white">Comparação Completa</h3>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr style="background:rgba(255,255,255,0.025)">
+              <th class="text-left px-7 py-4 text-sm font-normal" style="color:var(--muted)">Capacidade</th>
+              <th class="px-7 py-4 text-center text-sm syne font-bold" style="color:var(--red)">Robô Burro</th>
+              <th class="px-7 py-4 text-center text-sm syne font-bold" style="color:var(--g)">VettaTec IA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="tbl-row">
+              <td class="px-7 py-4 text-sm" style="color:var(--text)">Resposta 24/7</td>
+              <td class="px-7 py-4 text-center text-sm" style="color:var(--red)">Menu estático</td>
+              <td class="px-7 py-4 text-center text-sm" style="color:var(--g)">✅ Conversação real</td>
+            </tr>
+            <tr class="tbl-row">
+              <td class="px-7 py-4 text-sm" style="color:var(--text)">Qualifica o lead automaticamente</td>
+              <td class="px-7 py-4 text-center text-sm" style="color:var(--red)">❌ Nunca</td>
+              <td class="px-7 py-4 text-center text-sm" style="color:var(--g)">✅ Em tempo real</td>
+            </tr>
+            <tr class="tbl-row">
+              <td class="px-7 py-4 text-sm" style="color:var(--text)">Contexto regional (Passo Fundo, Caxias, Floripa…)</td>
+              <td class="px-7 py-4 text-center text-sm" style="color:var(--red)">❌ Genérico</td>
+              <td class="px-7 py-4 text-center text-sm" style="color:var(--g)">✅ Personalizado</td>
+            </tr>
+            <tr class="tbl-row">
+              <td class="px-7 py-4 text-sm" style="color:var(--text)">Adapta tom e linguagem</td>
+              <td class="px-7 py-4 text-center text-sm" style="color:var(--red)">❌ Rígido</td>
+              <td class="px-7 py-4 text-center text-sm" style="color:var(--g)">✅ Dinâmico</td>
+            </tr>
+            <tr class="tbl-row">
+              <td class="px-7 py-4 text-sm" style="color:var(--text)">Filtra curiosos de compradores</td>
+              <td class="px-7 py-4 text-center text-sm" style="color:var(--red)">❌ Nunca</td>
+              <td class="px-7 py-4 text-center text-sm" style="color:var(--g)">✅ Automaticamente</td>
+            </tr>
+            <tr class="tbl-row">
+              <td class="px-7 py-4 text-sm" style="color:var(--text)">Implantação</td>
+              <td class="px-7 py-4 text-center text-sm" style="color:var(--red)">Semanas</td>
+              <td class="px-7 py-4 text-center text-sm" style="color:var(--g)">✅ 7 dias</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-6">
-      <!-- WPP 1: Loja de Roupas 23h -->
-      <div class="reveal stagger-1 wpp-bg rounded-2xl overflow-hidden border border-white/8 card-hover">
-        <div class="wpp-head px-4 py-3 flex items-center justify-between gap-2">
-          <div class="flex items-center gap-2">
-            <div class="w-9 h-9 rounded-full bg-pink-800 flex items-center justify-center text-sm font-bold text-white">MB</div>
-            <div><p class="text-white text-sm font-semibold">Moda Bella Store 👗</p><p class="text-xs text-green-400">🟢 online</p></div>
-          </div>
-          <span class="text-xs bg-verde/20 text-verde px-2 py-1 rounded-full font-bold">🌙 23:07</span>
-        </div>
-        <div class="p-4 space-y-3 min-h-[320px]">
-          <div class="text-center my-1"><span class="bg-azul-light/60 text-white/40 text-xs px-3 py-1 rounded-full">Hoje, 23:00</span></div>
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[88%]">Oi! Vi um vestido no story de vocês, ainda tem? 😍<span class="block text-right text-gray-400 text-[10px] mt-1">23:01</span></div>
-          <div class="bubble-s px-3 py-2 text-xs text-white ml-auto max-w-[88%]">Oi, Camila! 😊 Sim, temos o vestido floral nos tamanhos P, M e GG. Qual é a sua numeração?<span class="block text-right text-green-300 text-[10px] mt-1">23:01 ✓✓</span></div>
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[88%]">M! Tem outras cores?<span class="block text-right text-gray-400 text-[10px] mt-1">23:02</span></div>
-          <div class="bubble-s px-3 py-2 text-xs text-white ml-auto max-w-[88%]">Temos em rosé 🌸, preto e vinho 🍷. Frete grátis acima de R$149. O vestido é R$179. Posso reservar o M pra você? 💳<span class="block text-right text-green-300 text-[10px] mt-1">23:03 ✓✓</span></div>
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[88%]">Quero o rosé!! Como pago? 😍<span class="block text-right text-gray-400 text-[10px] mt-1">23:04</span></div>
-          <div class="bubble-s px-3 py-2 text-xs text-white ml-auto max-w-[88%]">Pix, cartão até 3x sem juros ou boleto! Enviando o link agora 🛒✨<span class="block text-right text-green-300 text-[10px] mt-1">23:05 ✓✓</span></div>
-        </div>
-        <div class="bg-verde/10 border-t border-verde/15 px-4 py-2 text-xs text-verde font-semibold">✅ Venda fechada às 23h — dono dormindo</div>
+    <!-- 3 WPP Demos -->
+    <div class="mt-16">
+      <div class="text-center mb-10 reveal">
+        <h3 class="syne font-black text-2xl text-white mb-2">Veja em Ação — 3 Segmentos Reais</h3>
+        <p style="color:var(--muted)" class="text-sm">Vendas e agendamentos acontecendo sem nenhuma intervenção humana.</p>
       </div>
+      <div class="grid md:grid-cols-3 gap-6">
 
-      <!-- WPP 2: Barbearia -->
-      <div class="reveal stagger-2 wpp-bg rounded-2xl overflow-hidden border border-white/8 card-hover">
-        <div class="wpp-head px-4 py-3 flex items-center justify-between gap-2">
-          <div class="flex items-center gap-2">
-            <div class="w-9 h-9 rounded-full bg-blue-900 flex items-center justify-center text-sm font-bold text-white">BC</div>
-            <div><p class="text-white text-sm font-semibold">Barbearia do Corte ✂️</p><p class="text-xs text-green-400">Agendamento automático</p></div>
+        <!-- Moda 23h -->
+        <div class="card reveal d1" style="overflow:hidden">
+          <div class="wpp-screen">
+            <div class="wpp-header px-4 py-3 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white" style="background:#7B2D8B">MB</div>
+                <div><p class="text-white text-sm font-semibold">Moda Bella Store 👗</p><p class="text-xs" style="color:#25D366">🟢 online</p></div>
+              </div>
+              <span class="badge badge-b" style="padding:3px 8px;font-size:0.6rem">🌙 23:07</span>
+            </div>
+            <div class="p-4 space-y-2 min-h-64">
+              <div class="bubble-in">Oi! Vi um vestido no story de vocês, ainda tem? 😍<div class="msg-time">23:01</div></div>
+              <div class="bubble-out">Oi! 😊 Sim! Temos o floral em P, M e GG. Qual a sua numeração?<div class="msg-time green">23:01 ✓✓</div></div>
+              <div class="bubble-in">M! Tem outras cores?<div class="msg-time">23:02</div></div>
+              <div class="bubble-out">Rosé 🌸, preto e vinho 🍷. R$179, frete grátis acima de R$149. Reservo o M rosê? 💳<div class="msg-time green">23:03 ✓✓</div></div>
+              <div class="bubble-in">Quero o rosê!! Como pago? 😍<div class="msg-time">23:04</div></div>
+              <div class="bubble-out">Pix, cartão 3x sem juros ou boleto! Enviando o link 🛒✨<div class="msg-time green">23:05 ✓✓</div></div>
+            </div>
           </div>
-          <span class="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded-full font-bold">📅</span>
+          <div class="px-4 py-2.5 text-xs syne font-bold" style="background:rgba(0,255,136,0.08);border-top:1px solid var(--border-g);color:var(--g)">✅ Venda fechada às 23h — dono dormindo</div>
         </div>
-        <div class="p-4 space-y-3 min-h-[320px]">
-          <div class="text-center my-1"><span class="bg-azul-light/60 text-white/40 text-xs px-3 py-1 rounded-full">Hoje, 14:30</span></div>
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[88%]">Oi! Quero agendar um corte com o Marcos essa semana<span class="block text-right text-gray-400 text-[10px] mt-1">14:31</span></div>
-          <div class="bubble-s px-3 py-2 text-xs text-white ml-auto max-w-[88%]">Olá! 😊 O Marcos tem esses horários disponíveis:<br/>📅 Quarta: 16h ou 18h<br/>📅 Quinta: 10h ou 15h<br/>📅 Sexta: 09h ou 17h<br/>Qual prefere?<span class="block text-right text-green-300 text-[10px] mt-1">14:31 ✓✓</span></div>
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[88%]">Quinta às 15h!<span class="block text-right text-gray-400 text-[10px] mt-1">14:32</span></div>
-          <div class="bubble-s px-3 py-2 text-xs text-white ml-auto max-w-[88%]">✅ Confirmado! Quinta-feira às 15h com Marcos<br/>📍 Rua das Flores, 142<br/>⏰ ~40 min. Lembrete 2h antes! 💈<span class="block text-right text-green-300 text-[10px] mt-1">14:32 ✓✓</span></div>
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[88%]">Perfeito, obrigado! 👍<span class="block text-right text-gray-400 text-[10px] mt-1">14:33</span></div>
-          <div class="flex gap-1 px-3 py-2"><span class="w-2 h-2 rounded-full bg-verde blink-1"></span><span class="w-2 h-2 rounded-full bg-verde blink-2"></span><span class="w-2 h-2 rounded-full bg-verde blink-3"></span></div>
-        </div>
-        <div class="bg-verde/10 border-t border-verde/15 px-4 py-2 text-xs text-verde font-semibold">✅ Agendado em 60s — zero intervenção humana</div>
-      </div>
 
-      <!-- WPP 3: Imobiliária -->
-      <div class="reveal stagger-3 wpp-bg rounded-2xl overflow-hidden border border-white/8 card-hover">
-        <div class="wpp-head px-4 py-3 flex items-center justify-between gap-2">
-          <div class="flex items-center gap-2">
-            <div class="w-9 h-9 rounded-full bg-teal-900 flex items-center justify-center text-sm font-bold text-white">IC</div>
-            <div><p class="text-white text-sm font-semibold">ImóvelCerto RS 🏠</p><p class="text-xs text-green-400">Consultora virtual</p></div>
+        <!-- Barbearia -->
+        <div class="card reveal d2" style="overflow:hidden">
+          <div class="wpp-screen">
+            <div class="wpp-header px-4 py-3 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white" style="background:#1A3A6E">BC</div>
+                <div><p class="text-white text-sm font-semibold">Barbearia do Corte ✂️</p><p class="text-xs" style="color:#25D366">Agendamento automático</p></div>
+              </div>
+            </div>
+            <div class="p-4 space-y-2 min-h-64">
+              <div class="bubble-in">Oi! Quero agendar um corte com o Marcos essa semana<div class="msg-time">14:31</div></div>
+              <div class="bubble-out">Olá! 😊 O Marcos tem:<br/>📅 Quarta: 16h ou 18h<br/>📅 Quinta: 10h ou 15h<br/>📅 Sexta: 09h ou 17h<br/>Qual prefere?<div class="msg-time green">14:31 ✓✓</div></div>
+              <div class="bubble-in">Quinta às 15h!<div class="msg-time">14:32</div></div>
+              <div class="bubble-out">✅ Confirmado! Quinta às 15h com Marcos<br/>📍 Rua das Flores, 142 · ~40 min<br/>Lembrete 2h antes! 💈<div class="msg-time green">14:32 ✓✓</div></div>
+              <div class="bubble-in">Perfeito! Obrigado 👍<div class="msg-time">14:33</div></div>
+            </div>
           </div>
-          <span class="text-xs bg-teal-500/20 text-teal-300 px-2 py-1 rounded-full font-bold">🏡</span>
+          <div class="px-4 py-2.5 text-xs syne font-bold" style="background:rgba(0,255,136,0.08);border-top:1px solid var(--border-g);color:var(--g)">✅ Agendado em 60s — zero intervenção</div>
         </div>
-        <div class="p-4 space-y-3 min-h-[320px]">
-          <div class="text-center my-1"><span class="bg-azul-light/60 text-white/40 text-xs px-3 py-1 rounded-full">Hoje, 11:15</span></div>
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[88%]">Procuro apto 2q em Porto Alegre até R$400k com garagem<span class="block text-right text-gray-400 text-[10px] mt-1">11:16</span></div>
-          <div class="bubble-s px-3 py-2 text-xs text-white ml-auto max-w-[88%]">Boa tarde! 😊 Tenho 3 opções incríveis:<br/>🏠 68m² Menino Deus, 1 vaga — R$370k<br/>🏠 72m² Petrópolis, 1 vaga — R$389k<br/>🏠 65m² Menino Deus, 2 vagas — R$398k<br/>Qual te chamou atenção? 📅<span class="block text-right text-green-300 text-[10px] mt-1">11:17 ✓✓</span></div>
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[88%]">O de Petrópolis! Quero visitar<span class="block text-right text-gray-400 text-[10px] mt-1">11:18</span></div>
-          <div class="bubble-s px-3 py-2 text-xs text-white ml-auto max-w-[88%]">✅ Ótima escolha! Nosso corretor confirma a visita em até 30 min. Posso reservar no sistema agora? 🗓️<span class="block text-right text-green-300 text-[10px] mt-1">11:18 ✓✓</span></div>
+
+        <!-- Imobiliária -->
+        <div class="card reveal d3" style="overflow:hidden">
+          <div class="wpp-screen">
+            <div class="wpp-header px-4 py-3 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white" style="background:#0D4A4A">IC</div>
+                <div><p class="text-white text-sm font-semibold">ImóvelCerto RS 🏠</p><p class="text-xs" style="color:#25D366">Consultora virtual</p></div>
+              </div>
+            </div>
+            <div class="p-4 space-y-2 min-h-64">
+              <div class="bubble-in">Procuro apto 2q em POA até R$400k com garagem<div class="msg-time">11:16</div></div>
+              <div class="bubble-out">Boa tarde! 😊 Tenho 3 opções incríveis:<br/>🏠 68m² Menino Deus — R$370k<br/>🏠 72m² Petrópolis — R$389k<br/>🏠 65m² Menino Deus, 2 vagas — R$398k<br/>Qual te chamou? 📅<div class="msg-time green">11:17 ✓✓</div></div>
+              <div class="bubble-in">O de Petrópolis! Quero visitar<div class="msg-time">11:18</div></div>
+              <div class="bubble-out">✅ Ótima escolha! Corretor confirma em 30 min. Reservo no sistema agora? 🗓️<div class="msg-time green">11:18 ✓✓</div></div>
+            </div>
+          </div>
+          <div class="px-4 py-2.5 text-xs syne font-bold" style="background:rgba(0,255,136,0.08);border-top:1px solid var(--border-g);color:var(--g)">✅ Lead qualificado e visita agendada</div>
         </div>
-        <div class="bg-verde/10 border-t border-verde/15 px-4 py-2 text-xs text-verde font-semibold">✅ Lead qualificado e visita agendada automaticamente</div>
+
       </div>
     </div>
   </div>
 </section>
 
-       <!-- Feature comparison table -->
-      <div class="card-glow rounded-2xl overflow-hidden reveal">
-        <div class="p-6 border-b border-white/5">
-          <h3 class="font-display font-bold text-xl text-white">Comparação Completa</h3>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="w-full">
-            <thead>
-              <tr style="background:#071525">
-                <th class="text-left px-6 py-4 text-slate-400 font-normal text-sm">Capacidade</th>
-                <th class="px-6 py-4 text-center text-red-400 font-display text-sm">Robô Burro</th>
-                <th class="px-6 py-4 text-center font-display text-sm" style="color:#00FF88">VettaTec IA</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-white/5">
-              <tr>
-                <td class="px-6 py-4 text-slate-300 text-sm">Resposta 24/7</td>
-                <td class="px-6 py-4 text-center text-red-400 text-sm">Menu estático</td>
-                <td class="px-6 py-4 text-center text-sm" style="color:#00FF88">✅ Conversação real</td>
-              </tr>
-              <tr style="background:#071525">
-                <td class="px-6 py-4 text-slate-300 text-sm">Qualifica o lead automaticamente</td>
-                <td class="px-6 py-4 text-center text-red-400 text-sm">❌ Nunca</td>
-                <td class="px-6 py-4 text-center text-sm" style="color:#00FF88">✅ Em tempo real</td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 text-slate-300 text-sm">Entende contexto regional</td>
-                <td class="px-6 py-4 text-center text-red-400 text-sm">❌ Genérico</td>
-                <td class="px-6 py-4 text-center text-sm" style="color:#00FF88">✅ Passo Fundo, Caxias, Floripa...</td>
-              </tr>
-              <tr style="background:#071525">
-                <td class="px-6 py-4 text-slate-300 text-sm">Adapta tom e linguagem</td>
-                <td class="px-6 py-4 text-center text-red-400 text-sm">❌ Rígido</td>
-                <td class="px-6 py-4 text-center text-sm" style="color:#00FF88">✅ Dinâmico</td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 text-slate-300 text-sm">Filtra curiosos de compradores</td>
-                <td class="px-6 py-4 text-center text-red-400 text-sm">❌ Nunca</td>
-                <td class="px-6 py-4 text-center text-sm" style="color:#00FF88">✅ Automaticamente</td>
-              </tr>
-              <tr style="background:#071525">
-                <td class="px-6 py-4 text-slate-300 text-sm">Implantação</td>
-                <td class="px-6 py-4 text-center text-red-400 text-sm">Semanas</td>
-                <td class="px-6 py-4 text-center text-sm" style="color:#00FF88">✅ 7 dias</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>
- 
-  <div class="divider mx-8"></div>
+<div class="divider mx-8"></div>
 
-   <!-- ─── COMO FUNCIONA ─── -->
-  <section class="py-24 px-4 relative">
-    <div class="blob-green" style="top:0;right:-200px;opacity:0.5;"></div>
-    <div class="max-w-4xl mx-auto">
-      <div class="text-center mb-16 reveal">
-        <div class="badge-green inline-block px-4 py-1.5 rounded-full mb-4">🚀 IMPLANTAÇÃO</div>
-        <h2 class="font-display font-bold text-4xl sm:text-5xl text-white mb-4">Ativo em <span style="color:#00FF88">7 Dias</span> — Sem Dor de Cabeça</h2>
-      </div>
-      <div class="relative">
-        <div class="absolute left-8 top-0 bottom-0 timeline-line hidden md:block"></div>
-        <div class="space-y-8">
-          <div class="flex gap-6 reveal">
-            <div class="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 font-display font-bold text-xl relative z-10" style="background:linear-gradient(135deg,#00FF88,#1A6EFF);color:#040D1A">1</div>
-            <div class="card-glow rounded-2xl p-6 flex-1">
-              <h4 class="font-display font-bold text-lg text-white mb-2">Diagnóstico de Gargalo (Dia 1)</h4>
-              <p class="text-slate-400">Mapeamos exatamente onde suas vendas estão vazando. Identificamos o perfil do seu cliente ideal e os principais pontos de atrito no atendimento.</p>
-            </div>
-          </div>
-          <div class="flex gap-6 reveal">
-            <div class="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 font-display font-bold text-xl relative z-10" style="background:linear-gradient(135deg,#00FF88,#1A6EFF);color:#040D1A">2</div>
-            <div class="card-glow rounded-2xl p-6 flex-1">
-              <h4 class="font-display font-bold text-lg text-white mb-2">Treinamento do Agente (Dias 2–5)</h4>
-              <p class="text-slate-400">Treinamos a IA com o DNA do seu negócio: seus produtos, seus preços, sua linguagem, sua região. O agente fala como você — só que melhor.</p>
-            </div>
-          </div>
-          <div class="flex gap-6 reveal">
-            <div class="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 font-display font-bold text-xl relative z-10" style="background:linear-gradient(135deg,#00FF88,#1A6EFF);color:#040D1A">3</div>
-            <div class="card-glow rounded-2xl p-6 flex-1">
-              <h4 class="font-display font-bold text-lg text-white mb-2">Go-live e Monitoramento (Dias 6–7)</h4>
-              <p class="text-slate-400">Ativamos o sistema, fazemos testes reais e entregamos o painel de acompanhamento. Você monitora cada conversa e resultado em tempo real.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
- 
-  <div class="divider mx-8"></div>
- 
-
-<!-- ═══════════════════════════════ SOLUÇÃO / MECANISMO ═══════════════════════════════ -->
-<section class="relative z-10 py-24 px-5">
+<!-- ════════════════════════════════════════
+     FUNDADOR
+════════════════════════════════════════ -->
+<section id="fundador" class="relative py-28 px-5">
+  <div class="blob blob-g" style="width:500px;height:500px;top:0;right:-200px;opacity:0.4;"></div>
   <div class="max-w-5xl mx-auto">
-    <div class="text-center mb-16 reveal">
-      <div class="text-xs text-verde font-bold tracking-widest uppercase mb-3">⚡ Como Funciona</div>
-      <h2 class="mont font-black text-4xl md:text-5xl leading-tight mb-5">O <span class="text-verde">Atendimento Quântico</span><br/>em 4 passos simples</h2>
-    </div>
-    <div class="grid md:grid-cols-2 gap-6">
-      <div class="reveal stagger-1 bg-azul-mid border border-white/8 rounded-2xl p-7 card-hover">
-        <div class="w-12 h-12 rounded-full bg-verde text-azul font-black text-xl flex items-center justify-center mont mb-5">1</div>
-        <h4 class="mont font-black text-lg text-white mb-3">Mapeamento Cirúrgico</h4>
-        <p class="text-white/55 text-sm leading-relaxed">Mergulhamos fundo no seu negócio: produtos, preços, objeções comuns, linguagem do cliente e tom de voz. Nada genérico. Tudo feito sob medida.</p>
-      </div>
-      <div class="reveal stagger-2 bg-azul-mid border border-white/8 rounded-2xl p-7 card-hover">
-        <div class="w-12 h-12 rounded-full bg-verde text-azul font-black text-xl flex items-center justify-center mont mb-5">2</div>
-        <h4 class="mont font-black text-lg text-white mb-3">Agente Treinado no seu DNA</h4>
-        <p class="text-white/55 text-sm leading-relaxed">Construímos um agente que fala como você, conhece o que você vende e sabe exatamente o que dizer em cada etapa da conversa para converter.</p>
-      </div>
-      <div class="reveal stagger-3 bg-azul-mid border border-white/8 rounded-2xl p-7 card-hover">
-        <div class="w-12 h-12 rounded-full bg-verde text-azul font-black text-xl flex items-center justify-center mont mb-5">3</div>
-        <h4 class="mont font-black text-lg text-white mb-3">Integração Total ao WhatsApp</h4>
-        <p class="text-white/55 text-sm leading-relaxed">Conectamos no <strong class="text-white">seu número atual</strong>. Sem trocar chip, sem criar nova conta, sem mudar nada na sua operação. Transparente para seus clientes.</p>
-      </div>
-      <div class="reveal stagger-4 bg-azul-mid border border-white/8 rounded-2xl p-7 card-hover">
-        <div class="w-12 h-12 rounded-full bg-verde text-azul font-black text-xl flex items-center justify-center mont mb-5">4</div>
-        <h4 class="mont font-black text-lg text-white mb-3">No ar em 7 dias — Você não faz nada</h4>
-        <p class="text-white/55 text-sm leading-relaxed">Nossa equipe cuida de <strong class="text-white">100% da implementação</strong>. Você recebe o sistema funcionando e só precisa aguardar os leads chegando qualificados.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- ═══════════════════════════════ FUNDADOR ═══════════════════════════════ -->
-<section class="relative z-10 py-24 px-5 bg-azul-mid/40">
-  <div class="max-w-5xl mx-auto">
     <div class="text-center mb-16 reveal">
-      <div class="text-xs text-verde font-bold tracking-widest uppercase mb-3">👤 O Fundador</div>
-      <h2 class="mont font-black text-4xl md:text-5xl leading-tight">Quem está por trás<br/>da <span class="text-verde">VettaTec</span></h2>
+      <p class="section-label mb-3">👤 O Fundador</p>
+      <h2 class="font-black text-4xl md:text-5xl leading-tight text-white">
+        Quem está por trás<br/>da <span style="color:var(--g)">VettaTec</span>
+      </h2>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-12 items-center">
-      <div class="reveal stagger-1 flex justify-center">
+    <div class="grid md:grid-cols-2 gap-12 items-start">
+      <!-- Avatar placeholder -->
+      <div href ="wiliam.jpeg">
         <div class="relative">
-          <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-verde/20 to-transparent blur-2xl scale-110"></div>
-          <img src="wiliam.jpeg" alt="wiliam">.
+          <div class="absolute inset-0 rounded-3xl blur-3xl scale-110" style="background:linear-gradient(135deg,rgba(0,255,136,0.15),rgba(26,110,255,0.1))"></div>
+          <div class="relative w-72 h-72 rounded-3xl flex items-center justify-center syne font-black text-8xl" style="background:linear-gradient(135deg,var(--b2),var(--b3));border:1px solid var(--border-g)">
+            WG
+          </div>
+          <!-- floating badge -->
+          <div class="absolute -bottom-4 -right-4 card px-4 py-2.5 flex items-center gap-2" style="border-color:var(--border-g)">
+            <span class="w-2 h-2 rounded-full pulse" style="background:var(--g)"></span>
+            <span class="syne font-bold text-xs" style="color:var(--g)">DISPONÍVEL AGORA</span>
+          </div>
         </div>
       </div>
 
-      <div class="reveal stagger-2 space-y-6">
+      <div class="reveal d2 space-y-6">
         <div>
-          <h3 class="mont font-black text-3xl text-white mb-1">Wiliam Gomide</h3>
-          <p class="text-verde font-semibold text-sm tracking-wide">Engenheiro de IA · Especialista em Automações para PMEs</p>
+          <h3 class="syne font-black text-3xl text-white mb-1">Wiliam Gomide</h3>
+          <p class="font-semibold text-sm tracking-wide" style="color:var(--blue2)">Engenheiro de IA · Especialista em Automações para PMEs</p>
         </div>
 
-        <p class="text-white/65 leading-relaxed">Com mais de <strong class="text-white">10 anos como consultor de telecom</strong> — tendo trabalhado com gigantes como <strong class="text-white">TIM e Claro</strong> — Wiliam conhece na pele as dores do empreendedor brasileiro.</p>
+        <p class="leading-relaxed" style="color:var(--muted)">Com mais de <strong class="text-white">10 anos como consultor de telecom</strong> — trabalhando com gigantes como <strong class="text-white">TIM e Claro</strong> — Wiliam conhece na pele as dores do empreendedor brasileiro.</p>
 
-        <p class="text-white/65 leading-relaxed">Ele sabe o que é perder cliente por falta de resposta rápida, trabalhar 14h por dia e ainda sentir que está correndo atrás do prejuízo. A VettaTec nasceu dessa vivência real.</p>
+        <p class="leading-relaxed" style="color:var(--muted)">Ele sabe o que é perder cliente por falta de resposta rápida. A VettaTec nasceu dessa vivência real para democratizar a tecnologia das grandes telecoms e colocá-la nas mãos das PMEs do Sul do Brasil.</p>
 
         <!-- Startup badge -->
-        <div class="bg-verde/8 border border-verde/20 rounded-2xl p-5">
+        <div class="p-5 rounded-2xl" style="background:rgba(0,255,136,0.06);border:1px solid var(--border-g)">
           <div class="flex items-start gap-4">
             <span class="text-2xl">🏛️</span>
             <div>
-              <h4 class="mont font-bold text-white text-sm mb-1">Startup oficialmente enquadrada</h4>
-              <p class="text-white/55 text-xs leading-relaxed">A VettaTec é enquadrada na <strong class="text-verde">Lei Complementar nº 182/2021</strong> (Marco Legal das Startups), trazendo segurança jurídica, agilidade contratual e inovação regulamentada para o seu negócio.</p>
+              <h4 class="syne font-bold text-white text-sm mb-1">Startup Oficialmente Enquadrada</h4>
+              <p class="text-xs leading-relaxed" style="color:var(--muted)">A VettaTec é enquadrada na <strong style="color:var(--g)">Lei Complementar nº 182/2021</strong> (Marco Legal das Startups), garantindo segurança jurídica, agilidade contratual e inovação regulamentada para o seu negócio.</p>
             </div>
           </div>
         </div>
 
+        <!-- Social links -->
         <div class="flex flex-wrap gap-3">
-          <a href="https://instagram.com/wil.i.ama_gomide" target="_blank" class="flex items-center gap-2 bg-white/8 border border-white/10 rounded-xl px-4 py-2 text-sm text-white hover:border-verde/40 transition-all">
+          <a href="https://instagram.com/wil.i.ama_gomide" target="_blank" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm text-white transition-all" style="background:rgba(255,255,255,0.05);border:1px solid var(--border)">
             📸 @wil.i.ama_gomide
           </a>
-          <a href="https://instagram.com/vetta.tec" target="_blank" class="flex items-center gap-2 bg-white/8 border border-white/10 rounded-xl px-4 py-2 text-sm text-white hover:border-verde/40 transition-all">
+          <a href="https://instagram.com/vetta.tec" target="_blank" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm text-white transition-all" style="background:rgba(255,255,255,0.05);border:1px solid var(--border)">
             📸 @vetta.tec
           </a>
-          <a href="https://wa.me/5554981060461" target="_blank" class="flex items-center gap-2 bg-verde/15 border border-verde/25 rounded-xl px-4 py-2 text-sm text-verde font-semibold hover:bg-verde/25 transition-all">
+          <a href="https://wa.me/5554981060461" target="_blank" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all" style="background:rgba(0,255,136,0.12);border:1px solid var(--border-g);color:var(--g)">
             💬 WhatsApp
           </a>
         </div>
@@ -798,234 +822,295 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════ PROVA SOCIAL ═══════════════════════════════ -->
-<section class="relative z-10 py-24 px-5">
+<div class="divider mx-8"></div>
+
+<!-- ════════════════════════════════════════
+     PROVA SOCIAL
+════════════════════════════════════════ -->
+<section id="prova" class="relative py-28 px-5">
   <div class="max-w-6xl mx-auto">
+
     <div class="text-center mb-16 reveal">
-      <div class="text-xs text-verde font-bold tracking-widest uppercase mb-3">⭐ Prova Social</div>
-      <h2 class="mont font-black text-4xl md:text-5xl leading-tight mb-4">Clientes reais.<br/><span class="text-verde">Resultados reais.</span></h2>
+      <p class="section-label mb-3">⭐ Prova Social</p>
+      <h2 class="font-black text-4xl md:text-5xl leading-tight text-white mb-4">
+        Clientes Reais.<br/><span style="color:var(--g)">Resultados Reais.</span>
+      </h2>
     </div>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-      <!-- Print 1: Ana Paula SC -->
-      <div class="reveal stagger-1 wpp-bg rounded-2xl overflow-hidden border border-white/8 card-hover">
-        <div class="wpp-head px-4 py-3 flex items-center gap-2">
-          <div class="w-9 h-9 rounded-full bg-emerald-800 flex items-center justify-center text-sm font-bold text-white">AP</div>
-          <div><p class="text-white text-sm font-semibold">Ana Paula S.</p><p class="text-xs text-green-400">🟢 online · Florianópolis SC</p></div>
-        </div>
-        <div class="p-4 space-y-2.5">
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[90%]">Oi Wiliam!! Preciso te contar uma coisa 😍<span class="block text-right text-gray-400 text-[10px] mt-1">10:43</span></div>
-          <div class="bubble-s px-3 py-2 text-xs text-white ml-auto max-w-[90%]">Oi Ana! Pode falar 😄<span class="block text-right text-green-300 text-[10px] mt-1">10:44 ✓✓</span></div>
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[90%]">Que resultado absurdo!! Ontem chegaram 3 clientes pelo WPP às 23h e o agente resolveu TUDO sozinho. Eu nem sabia que tinha mensagem 😂<span class="block text-right text-gray-400 text-[10px] mt-1">10:45</span></div>
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[90%]">Fechei 2 delas hoje cedo. Eram vendas PERDIDAS com certeza! Obrigada 🙏🙏<span class="block text-right text-gray-400 text-[10px] mt-1">10:46</span></div>
-          <div class="bubble-s px-3 py-2 text-xs text-white ml-auto max-w-[90%]">Que notícia incrível! 🚀 Exatamente pra isso o sistema existe!<span class="block text-right text-green-300 text-[10px] mt-1">10:47 ✓✓</span></div>
-        </div>
-        <div class="border-t border-white/5 px-4 py-2 text-xs text-white/40">📍 Florianópolis, SC</div>
-      </div>
-
-      <!-- Print 2: Ricardo SC -->
-      <div class="reveal stagger-2 wpp-bg rounded-2xl overflow-hidden border border-white/8 card-hover">
-        <div class="wpp-head px-4 py-3 flex items-center gap-2">
-          <div class="w-9 h-9 rounded-full bg-blue-800 flex items-center justify-center text-sm font-bold text-white">RM</div>
-          <div><p class="text-white text-sm font-semibold">Ricardo M.</p><p class="text-xs text-green-400">🟢 online · Joinville SC</p></div>
-        </div>
-        <div class="p-4 space-y-2.5">
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[90%]">Cara, 11 reuniões agendadas essa semana e eu não fiz NADA 😳<span class="block text-right text-gray-400 text-[10px] mt-1">14:18</span></div>
-          <div class="bubble-s px-3 py-2 text-xs text-white ml-auto max-w-[90%]">Esse é o objetivo! Como tá a qualidade dos leads?<span class="block text-right text-green-300 text-[10px] mt-1">14:19 ✓✓</span></div>
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[90%]">Qualificadíssimos! O agente já filtra os curiosos. Quem chega pra mim JÁ quer comprar. Taxa de fechamento disparou 🔥<span class="block text-right text-gray-400 text-[10px] mt-1">14:20</span></div>
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[90%]">Melhor investimento do ano! Valeu demais irmão 🤝<span class="block text-right text-gray-400 text-[10px] mt-1">14:21</span></div>
-          <div class="bubble-s px-3 py-2 text-xs text-white ml-auto max-w-[90%]">Fico muito feliz! Qualquer coisa tô aqui 💪<span class="block text-right text-green-300 text-[10px] mt-1">14:22 ✓✓</span></div>
-        </div>
-        <div class="border-t border-white/5 px-4 py-2 text-xs text-white/40">📍 Joinville, SC</div>
-      </div>
-
-      <!-- Print 3: Fernanda RS -->
-      <div class="reveal stagger-3 wpp-bg rounded-2xl overflow-hidden border border-white/8 card-hover">
-        <div class="wpp-head px-4 py-3 flex items-center gap-2">
-          <div class="w-9 h-9 rounded-full bg-purple-800 flex items-center justify-center text-sm font-bold text-white">FL</div>
-          <div><p class="text-white text-sm font-semibold">Fernanda L.</p><p class="text-xs text-white/40">Porto Alegre RS</p></div>
-        </div>
-        <div class="p-4 space-y-2.5">
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[90%]">Bom dia!! Sistema tá incrível 😭❤️<span class="block text-right text-gray-400 text-[10px] mt-1">09:22</span></div>
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[90%]">Domingo recebi 7 msgs de clientes. O agente respondeu TODOS, mandou cardápio, tirou dúvida e agendou 2 visitas!<span class="block text-right text-gray-400 text-[10px] mt-1">09:23</span></div>
-          <div class="bubble-s px-3 py-2 text-xs text-white ml-auto max-w-[90%]">🎉 Domingo é dia de ouro! Muita gente pesquisa no fim de semana<span class="block text-right text-green-300 text-[10px] mt-1">09:28 ✓✓</span></div>
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[90%]">Eu tava curtindo o dia com a família sem me preocupar com nada 😄 Em 6 dias já valeu cada centavo!<span class="block text-right text-gray-400 text-[10px] mt-1">09:30</span></div>
-        </div>
-        <div class="border-t border-white/5 px-4 py-2 text-xs text-white/40">📍 Porto Alegre, RS</div>
-      </div>
-
-      <!-- Print 4: Carlos RS -->
-      <div class="reveal stagger-4 wpp-bg rounded-2xl overflow-hidden border border-white/8 card-hover">
-        <div class="wpp-head px-4 py-3 flex items-center gap-2">
-          <div class="w-9 h-9 rounded-full bg-red-900 flex items-center justify-center text-sm font-bold text-white">CH</div>
-          <div><p class="text-white text-sm font-semibold">Carlos H.</p><p class="text-xs text-white/40">Caxias do Sul RS</p></div>
-        </div>
-        <div class="p-4 space-y-2.5">
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[90%]">Wiliam tenho uma história engraçada kkk<span class="block text-right text-gray-400 text-[10px] mt-1">16:58</span></div>
-          <div class="bubble-s px-3 py-2 text-xs text-white ml-auto max-w-[90%]">Pode falar hahaha<span class="block text-right text-green-300 text-[10px] mt-1">16:59 ✓✓</span></div>
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[90%]">Um cliente perguntou pro meu sócio: "aquela menina nova do atendimento é muito boa!" KKKKK o sócio ficou confuso achando que eu contratei alguém 😂<span class="block text-right text-gray-400 text-[10px] mt-1">17:01</span></div>
-          <div class="bubble-r px-3 py-2 text-xs text-white max-w-[90%]">Tive que explicar que é IA 😂 Melhor decisão do trimestre! Recomendo demais<span class="block text-right text-gray-400 text-[10px] mt-1">17:04</span></div>
-          <div class="bubble-s px-3 py-2 text-xs text-white ml-auto max-w-[90%]">Hahaha a melhor história! É exatamente esse o objetivo 🏆🤖<span class="block text-right text-green-300 text-[10px] mt-1">17:05 ✓✓</span></div>
-        </div>
-        <div class="border-t border-white/5 px-4 py-2 text-xs text-white/40">📍 Caxias do Sul, RS</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-</section>
-
-<!-- ═══════════════════════════════ GARANTIA ═══════════════════════════════ -->
-<section class="relative z-10 py-24 px-5">
-  <div class="max-w-3xl mx-auto text-center reveal">
-    <div class="bg-gradient-to-br from-azul-mid to-azul-light border-2 border-verde/20 rounded-3xl p-10 md:p-14">
-      <div class="text-6xl mb-6">🛡️</div>
-      <h2 class="mont font-black text-3xl md:text-4xl text-white mb-4">Garantia Blindada de <span class="text-verde">90 Dias</span></h2>
-      <h3 class="mont font-bold text-xl text-white/80 mb-6">Fim da Perda de Vendas — ou seu dinheiro de volta</h3>
-      <p class="text-white/60 leading-relaxed mb-8 text-lg">Você tem <strong class="text-white">90 dias inteiros</strong> para testar o Vendedor Invisível da VettaTec. Se em qualquer momento sentir que não está tendo resultado, basta mandar uma mensagem: <strong class="text-verde">devolvemos 100% do que você pagou — sem burocracia, sem questionamento, sem enrolação.</strong></p>
-      <p class="text-verde font-black text-xl mb-8">O risco é nosso. O resultado é seu.</p>
-      <div class="flex justify-center gap-6 flex-wrap text-sm">
-        <span class="flex items-center gap-2 text-white/60"><span class="text-verde text-lg">✅</span>90 dias corridos</span>
-        <span class="flex items-center gap-2 text-white/60"><span class="text-verde text-lg">✅</span>Reembolso total</span>
-        <span class="flex items-center gap-2 text-white/60"><span class="text-verde text-lg">✅</span>Sem perguntas</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ═══════════════════════════════ FAQ ═══════════════════════════════ -->
-<section class="relative z-10 py-24 px-5">
-  <div class="max-w-2xl mx-auto">
-    <div class="text-center mb-14 reveal">
-      <div class="text-xs text-verde font-bold tracking-widest uppercase mb-3">❓ FAQ</div>
-      <h2 class="mont font-black text-4xl leading-tight">Ainda tem dúvida?<br/><span class="text-verde">A gente responde.</span></h2>
-    </div>
-    <div class="space-y-3" id="faq">
-      <div class="faq-item bg-azul-mid border border-white/7 rounded-2xl overflow-hidden reveal stagger-1">
-        <button onclick="toggleFaq(this)" class="w-full text-left px-6 py-5 font-semibold text-white flex justify-between items-center gap-4 hover:bg-white/3 transition-colors">
-          Preciso comprar um número novo para o WhatsApp?
-          <span class="faq-icon text-verde text-xl transition-transform duration-300">+</span>
-        </button>
-        <div class="faq-body hidden px-6 pb-5 text-sm text-white/55 leading-relaxed">
-          Não! O Vendedor Digital VettaTec funciona com o seu número atual. Sem trocar chip, sem criar nova conta, sem mudar nada na sua operação. A integração é feita direto no número que você já usa.
-        </div>
-      </div>
-      <div class="faq-item bg-azul-mid border border-white/7 rounded-2xl overflow-hidden reveal stagger-2">
-        <button onclick="toggleFaq(this)" class="w-full text-left px-6 py-5 font-semibold text-white flex justify-between items-center gap-4 hover:bg-white/3 transition-colors">
-          Funciona para o meu segmento?
-          <span class="faq-icon text-verde text-xl transition-transform duration-300">+</span>
-        </button>
-        <div class="faq-body hidden px-6 pb-5 text-sm text-white/55 leading-relaxed">
-          Sim! A VettaTec já atende clínicas, imobiliárias, lojas físicas e online, prestadores de serviço, academias, escritórios contábeis e muito mais. O Bônus Biblioteca Setorial inclui scripts para +30 segmentos. O treinamento do agente é feito especificamente para o seu negócio.
-        </div>
-      </div>
-      <div class="faq-item bg-azul-mid border border-white/7 rounded-2xl overflow-hidden reveal stagger-3">
-        <button onclick="toggleFaq(this)" class="w-full text-left px-6 py-5 font-semibold text-white flex justify-between items-center gap-4 hover:bg-white/3 transition-colors">
-          Como funciona a garantia de 90 dias?
-          <span class="faq-icon text-verde text-xl transition-transform duration-300">+</span>
-        </button>
-        <div class="faq-body hidden px-6 pb-5 text-sm text-white/55 leading-relaxed">
-          Você tem 90 dias a partir da assinatura para avaliar os resultados. Se por qualquer motivo achar que não valeu, basta enviar uma mensagem e devolvemos 100% do valor pago. Sem formulário complicado, sem fila de análise, sem questionamento. Risco zero é risco zero.
-        </div>
-      </div>
-      <div class="faq-item bg-azul-mid border border-white/7 rounded-2xl overflow-hidden reveal stagger-4">
-        <button onclick="toggleFaq(this)" class="w-full text-left px-6 py-5 font-semibold text-white flex justify-between items-center gap-4 hover:bg-white/3 transition-colors">
-          Preciso entender de tecnologia para usar?
-          <span class="faq-icon text-verde text-xl transition-transform duration-300">+</span>
-        </button>
-        <div class="faq-body hidden px-6 pb-5 text-sm text-white/55 leading-relaxed">
-          Zero. Nossa equipe cuida de 100% da implementação. Você não precisa instalar nada, configurar nada, nem entender nada de IA. Quando avisar que está no ar, é só começar a receber leads qualificados e reuniões agendadas.
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-   <!-- ─── FINAL CTA ─── -->
-  <section id="cta-final" class="py-24 px-4 relative overflow-hidden">
-    <div class="blob-green" style="top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.3;"></div>
-    <div class="max-w-3xl mx-auto text-center relative">
-      <div class="reveal">
-        <div class="badge-green inline-block px-4 py-1.5 rounded-full mb-8">🎯 PRÓXIMO PASSO</div>
-        <h2 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight">
-          Cada Minuto Sem Responder<br/>É Dinheiro no Bolso<br/><span style="color:#FF6B6B">do Concorrente.</span>
-        </h2>
-        <p class="text-xl text-slate-400 mb-10 leading-relaxed">
-          A Análise de Gargalo Gratuita é sua primeira conversa sem compromisso. Em 30 minutos, descobrimos exatamente <strong class="text-white">quanto você está perdendo</strong> e como parar de perder agora.
-        </p>
-        <div class="card-glow rounded-2xl p-8 mb-8">
-          <h3 class="font-display font-bold text-xl text-white mb-2">O que você recebe na Análise:</h3>
-          <div class="grid sm:grid-cols-2 gap-3 mt-4 text-left">
-            <div class="flex items-center gap-2 text-slate-300 text-sm"><i data-lucide="check" class="w-4 h-4" style="color:#00FF88"></i> Mapeamento dos seus pontos de vazamento</div>
-            <div class="flex items-center gap-2 text-slate-300 text-sm"><i data-lucide="check" class="w-4 h-4" style="color:#00FF88"></i> Estimativa do faturamento perdido por mês</div>
-            <div class="flex items-center gap-2 text-slate-300 text-sm"><i data-lucide="check" class="w-4 h-4" style="color:#00FF88"></i> Roadmap de implementação personalizado</div>
-            <div class="flex items-center gap-2 text-slate-300 text-sm"><i data-lucide="check" class="w-4 h-4" style="color:#00FF88"></i> ROI projetado para o seu segmento</div>
+      <!-- Ana Paula -->
+      <div class="card reveal d1" style="overflow:hidden">
+        <div class="wpp-screen">
+          <div class="wpp-header px-4 py-3 flex items-center gap-2">
+            <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white" style="background:#2D6A4F">AP</div>
+            <div><p class="text-white text-sm font-semibold">Ana Paula S.</p><p class="text-xs" style="color:#25D366">🟢 Florianópolis SC</p></div>
+          </div>
+          <div class="p-4 space-y-2">
+            <div class="bubble-in">Oi Wiliam!! Preciso te contar uma coisa 😍<div class="msg-time">10:43</div></div>
+            <div class="bubble-out">Oi Ana! Pode falar 😄<div class="msg-time green">10:44 ✓✓</div></div>
+            <div class="bubble-in">Resultado absurdo!! 3 clientes às 23h e o agente resolveu TUDO sozinho. Eu nem sabia que tinha mensagem 😂<div class="msg-time">10:45</div></div>
+            <div class="bubble-in">Fechei 2 delas hoje cedo. Eram vendas PERDIDAS com certeza! Obrigada 🙏🙏<div class="msg-time">10:46</div></div>
           </div>
         </div>
-        <a href="https://wa.me/5554981060461?text=Quero%20minha%20Análise%20de%20Gargalo%20Gratuita" target="_blank">
-          <button class="btn-green px-10 py-5 rounded-xl text-lg flex items-center gap-3 mx-auto">
-            <i data-lucide="message-circle" class="w-6 h-6"></i>
-            Quero Minha Análise de Gargalo Gratuita
-          </button>
-        </a>
-        <p class="text-slate-500 text-sm mt-4">🔒 Sem compromisso. Sem cartão de crédito.</p>
-        <div class="flex items-center justify-center gap-6 mt-8 text-sm text-slate-500">
-          <span class="flex items-center gap-1"><i data-lucide="shield-check" class="w-4 h-4 text-green-400"></i> Marco Legal Startups</span>
-          <span class="flex items-center gap-1"><i data-lucide="clock" class="w-4 h-4 text-blue-400"></i> Resposta em até 24h</span>
-          <span class="flex items-center gap-1"><i data-lucide="award" class="w-4 h-4 text-yellow-400"></i> Garantia de 90 dias</span>
+        <div class="px-4 py-2 text-xs" style="border-top:1px solid var(--border);color:var(--muted)">📍 Florianópolis, SC</div>
+      </div>
+
+      <!-- Ricardo -->
+      <div class="card reveal d2" style="overflow:hidden">
+        <div class="wpp-screen">
+          <div class="wpp-header px-4 py-3 flex items-center gap-2">
+            <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white" style="background:#1A3A6E">RM</div>
+            <div><p class="text-white text-sm font-semibold">Ricardo M.</p><p class="text-xs" style="color:#25D366">🟢 Joinville SC</p></div>
+          </div>
+          <div class="p-4 space-y-2">
+            <div class="bubble-in">Cara, 11 reuniões agendadas essa semana e eu não fiz NADA 😳<div class="msg-time">14:18</div></div>
+            <div class="bubble-out">Esse é o objetivo! Como tá a qualidade dos leads?<div class="msg-time green">14:19 ✓✓</div></div>
+            <div class="bubble-in">Qualificadíssimos! Quem chega pra mim JÁ quer comprar. Taxa de fechamento disparou 🔥<div class="msg-time">14:20</div></div>
+            <div class="bubble-in">Melhor investimento do ano! Valeu demais irmão 🤝<div class="msg-time">14:21</div></div>
+          </div>
+        </div>
+        <div class="px-4 py-2 text-xs" style="border-top:1px solid var(--border);color:var(--muted)">📍 Joinville, SC</div>
+      </div>
+
+      <!-- Fernanda -->
+      <div class="card reveal d3" style="overflow:hidden">
+        <div class="wpp-screen">
+          <div class="wpp-header px-4 py-3 flex items-center gap-2">
+            <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white" style="background:#5B21B6">FL</div>
+            <div><p class="text-white text-sm font-semibold">Fernanda L.</p><p class="text-xs" style="color:rgba(255,255,255,0.4)">Porto Alegre RS</p></div>
+          </div>
+          <div class="p-4 space-y-2">
+            <div class="bubble-in">Bom dia!! Sistema tá incrível 😭❤️<div class="msg-time">09:22</div></div>
+            <div class="bubble-in">Domingo recebi 7 msgs. O agente respondeu TODOS, mandou cardápio, tirou dúvidas e agendou 2 visitas!<div class="msg-time">09:23</div></div>
+            <div class="bubble-out">🎉 Domingo é dia de ouro! Muita gente pesquisa no fim de semana<div class="msg-time green">09:28 ✓✓</div></div>
+            <div class="bubble-in">Em 6 dias já valeu cada centavo! 😄<div class="msg-time">09:30</div></div>
+          </div>
+        </div>
+        <div class="px-4 py-2 text-xs" style="border-top:1px solid var(--border);color:var(--muted)">📍 Porto Alegre, RS</div>
+      </div>
+
+      <!-- Carlos -->
+      <div class="card reveal d4" style="overflow:hidden">
+        <div class="wpp-screen">
+          <div class="wpp-header px-4 py-3 flex items-center gap-2">
+            <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white" style="background:#7F1D1D">CH</div>
+            <div><p class="text-white text-sm font-semibold">Carlos H.</p><p class="text-xs" style="color:rgba(255,255,255,0.4)">Caxias do Sul RS</p></div>
+          </div>
+          <div class="p-4 space-y-2">
+            <div class="bubble-in">Wiliam tenho uma história engraçada kkk<div class="msg-time">16:58</div></div>
+            <div class="bubble-out">Pode falar hahaha<div class="msg-time green">16:59 ✓✓</div></div>
+            <div class="bubble-in">Um cliente perguntou pro meu sócio: "aquela menina nova do atendimento é muito boa!" o sócio ficou confuso achando que eu contratei alguém 😂<div class="msg-time">17:01</div></div>
+            <div class="bubble-in">Tive que explicar que é IA 😂 Melhor decisão do trimestre!<div class="msg-time">17:04</div></div>
+          </div>
+        </div>
+        <div class="px-4 py-2 text-xs" style="border-top:1px solid var(--border);color:var(--muted)">📍 Caxias do Sul, RS</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider mx-8"></div>
+
+<!-- ════════════════════════════════════════
+     GARANTIA
+════════════════════════════════════════ -->
+<section class="relative py-28 px-5">
+  <div class="blob blob-g" style="width:600px;height:600px;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.3;"></div>
+  <div class="max-w-3xl mx-auto reveal">
+    <div class="p-10 md:p-14 rounded-3xl text-center" style="background:linear-gradient(135deg,rgba(13,30,56,0.9),rgba(15,32,53,0.95));border:1px solid var(--border-g);box-shadow:0 0 60px rgba(0,255,136,0.07),0 32px 80px rgba(0,0,0,0.5)">
+      <div class="flex justify-center mb-8">
+        <div class="seal-ring float">
+          <div class="seal-core">
+            <span class="syne font-black text-4xl" style="color:var(--g)">90</span>
+            <span class="syne font-bold text-xs text-white">DIAS</span>
+            <span class="text-xs" style="color:var(--muted)">GARANTIA</span>
+          </div>
+        </div>
+      </div>
+      <h2 class="syne font-black text-3xl md:text-4xl text-white mb-3">Garantia Blindada de <span style="color:var(--g)">90 Dias</span></h2>
+      <h3 class="syne font-bold text-lg mb-6" style="color:rgba(221,230,240,0.65)">Fim da Perda de Vendas — ou seu dinheiro de volta</h3>
+      <p class="text-lg leading-relaxed mb-6" style="color:var(--muted)">
+        Você tem <strong class="text-white">90 dias inteiros</strong> para testar o Vendedor Invisível. Se em qualquer momento não estiver satisfeito, basta mandar uma mensagem: <strong style="color:var(--g)">devolvemos 100% do que você pagou — sem burocracia, sem questionamento.</strong>
+      </p>
+      <p class="syne font-black text-xl mb-8" style="color:var(--g)">O risco é nosso. O resultado é seu.</p>
+      <div class="flex justify-center flex-wrap gap-6 text-sm" style="color:var(--muted)">
+        <span class="flex items-center gap-2"><span class="text-lg" style="color:var(--g)">✅</span>90 dias corridos</span>
+        <span class="flex items-center gap-2"><span class="text-lg" style="color:var(--g)">✅</span>Reembolso total</span>
+        <span class="flex items-center gap-2"><span class="text-lg" style="color:var(--g)">✅</span>Sem perguntas</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider mx-8"></div>
+
+<!-- ════════════════════════════════════════
+     FAQ
+════════════════════════════════════════ -->
+<section class="relative py-24 px-5">
+  <div class="max-w-2xl mx-auto">
+    <div class="text-center mb-14 reveal">
+      <p class="section-label mb-3">❓ FAQ</p>
+      <h2 class="font-black text-4xl leading-tight text-white">Ainda tem dúvida?<br/><span style="color:var(--g)">A gente responde.</span></h2>
+    </div>
+
+    <div class="space-y-3" id="faq-container">
+      <div class="card reveal d1" style="overflow:hidden">
+        <button class="faq-btn w-full text-left px-6 py-5 font-semibold text-white flex justify-between items-center gap-4 hover:bg-white/5 transition-colors text-sm" style="background:transparent;border:none;cursor:pointer">
+          Preciso comprar um número novo para o WhatsApp?
+          <span class="faq-icon syne font-bold text-xl" style="color:var(--g)">+</span>
+        </button>
+        <div class="faq-body px-6 pb-5 text-sm leading-relaxed" style="color:var(--muted)">
+          Não! O Vendedor Invisível funciona com o seu número atual. Sem trocar chip, sem criar nova conta, sem mudar nada na sua operação. A integração é feita direto no número que você já usa.
+        </div>
+      </div>
+      <div class="card reveal d2" style="overflow:hidden">
+        <button class="faq-btn w-full text-left px-6 py-5 font-semibold text-white flex justify-between items-center gap-4 hover:bg-white/5 transition-colors text-sm" style="background:transparent;border:none;cursor:pointer">
+          Funciona para o meu segmento?
+          <span class="faq-icon syne font-bold text-xl" style="color:var(--g)">+</span>
+        </button>
+        <div class="faq-body px-6 pb-5 text-sm leading-relaxed" style="color:var(--muted)">
+          Sim! Clínicas, imobiliárias, lojas físicas e online, prestadores de serviço, academias, escritórios contábeis e muito mais. O treinamento do agente é feito especificamente para o seu negócio, nicho e região.
+        </div>
+      </div>
+      <div class="card reveal d3" style="overflow:hidden">
+        <button class="faq-btn w-full text-left px-6 py-5 font-semibold text-white flex justify-between items-center gap-4 hover:bg-white/5 transition-colors text-sm" style="background:transparent;border:none;cursor:pointer">
+          Como funciona a garantia de 90 dias?
+          <span class="faq-icon syne font-bold text-xl" style="color:var(--g)">+</span>
+        </button>
+        <div class="faq-body px-6 pb-5 text-sm leading-relaxed" style="color:var(--muted)">
+          90 dias a partir da assinatura. Se por qualquer motivo não valer, basta enviar uma mensagem e devolvemos 100% do valor pago. Sem formulário, sem fila, sem questionamento. Risco zero.
+        </div>
+      </div>
+      <div class="card reveal d4" style="overflow:hidden">
+        <button class="faq-btn w-full text-left px-6 py-5 font-semibold text-white flex justify-between items-center gap-4 hover:bg-white/5 transition-colors text-sm" style="background:transparent;border:none;cursor:pointer">
+          Preciso entender de tecnologia para usar?
+          <span class="faq-icon syne font-bold text-xl" style="color:var(--g)">+</span>
+        </button>
+        <div class="faq-body px-6 pb-5 text-sm leading-relaxed" style="color:var(--muted)">
+          Zero. Nossa equipe cuida de 100% da implementação. Você não precisa instalar nada, configurar nada, nem entender nada de IA. Quando avisar que está no ar, é só receber os leads qualificados.
         </div>
       </div>
     </div>
-  </section>
-
-<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
-<footer class="relative z-10 border-t border-verde/10 bg-azul/80 backdrop-blur px-5 py-12 text-center">
-  
-  <p class="text-white/40 text-sm mb-4">
-    📸 <a href="https://instagram.com/vetta.tec" target="_blank" class="text-verde hover:underline">@vetta.tec</a>
-    &nbsp;·&nbsp;
-    💬 <a href="https://wa.me/5554981060461" class="text-verde hover:underline">54 99185-8913</a>
-  </p>
-  <div class="flex justify-center gap-5 flex-wrap text-xs text-white/30 mb-4">
-    <a href="#" class="hover:text-verde transition-colors">Política de Privacidade</a>
-    <a href="#" class="hover:text-verde transition-colors">Termos de Uso</a>
-    <a href="https://wa.me/5554981060461" class="hover:text-verde transition-colors">Suporte</a>
   </div>
-  <p class="text-white/20 text-xs">© 2026 VettaTec. Todos os direitos reservados.</p>
-  <p class="text-white/15 text-xs mt-1">Vetta Tecnologia e Automacao Inteligente LTDA · CNPJ 65.408.045/0001-45</p>
-  <p class="text-white/15 text-xs mt-1">Startup enquadrada na Lei Complementar nº 182/2021</p>
+</section>
+
+<div class="divider mx-8"></div>
+
+<!-- ════════════════════════════════════════
+     CTA FINAL
+════════════════════════════════════════ -->
+<section id="oferta" class="relative py-28 px-5 overflow-hidden">
+  <div class="blob blob-g" style="width:700px;height:700px;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.25;"></div>
+  <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+    <div class="badge badge-g mb-8">🎯 PRÓXIMO PASSO</div>
+    <h2 class="font-black text-4xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight">
+      Cada Minuto Sem Responder<br/>É Dinheiro no Bolso<br/><span style="color:var(--red)">do Concorrente.</span>
+    </h2>
+    <p class="text-xl mb-10 leading-relaxed" style="color:var(--muted)">
+      A Análise de Gargalo é sua primeira conversa sem compromisso. Em 30 minutos, descobrimos exatamente <strong class="text-white">quanto você está perdendo</strong> e como parar de perder agora.
+    </p>
+
+    <div class="card p-8 mb-8 text-left">
+      <h3 class="syne font-bold text-lg text-white mb-5 text-center">O que você recebe na Análise:</h3>
+      <div class="grid sm:grid-cols-2 gap-3">
+        <div class="flex items-center gap-2.5 text-sm" style="color:var(--muted)"><span style="color:var(--g)">✓</span> Mapeamento dos pontos de vazamento</div>
+        <div class="flex items-center gap-2.5 text-sm" style="color:var(--muted)"><span style="color:var(--g)">✓</span> Estimativa do faturamento perdido/mês</div>
+        <div class="flex items-center gap-2.5 text-sm" style="color:var(--muted)"><span style="color:var(--g)">✓</span> Roadmap de implementação personalizado</div>
+        <div class="flex items-center gap-2.5 text-sm" style="color:var(--muted)"><span style="color:var(--g)">✓</span> ROI projetado para o seu segmento</div>
+      </div>
+    </div>
+
+    <a href="https://wa.me/5554981060461?text=Quero%20minha%20Análise%20de%20Gargalo%20Gratuita" target="_blank" class="btn-primary text-lg inline-flex justify-center" style="width:100%;max-width:480px;padding:18px 32px;border-radius:16px;font-size:1.05rem">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Quero Minha Análise de Gargalo Gratuita
+    </a>
+    <p class="text-sm mt-4" style="color:rgba(221,230,240,0.3)">🔒 Sem compromisso. Sem cartão de crédito. 100% gratuito.</p>
+
+    <div class="flex flex-wrap items-center justify-center gap-6 mt-8 text-sm" style="color:var(--muted)">
+      <span class="flex items-center gap-1.5"><span style="color:var(--g)">🛡</span> Marco Legal Startups</span>
+      <span class="flex items-center gap-1.5"><span style="color:var(--blue2)">⏱</span> Resposta em até 24h</span>
+      <span class="flex items-center gap-1.5"><span style="color:#FFD600">🏆</span> Garantia de 90 dias</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer style="border-top:1px solid var(--border);background:rgba(6,14,28,0.8)">
+  <div class="max-w-6xl mx-auto px-5 py-12">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,var(--g),var(--blue))">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <span class="syne font-bold text-white text-base">Vetta<span style="color:var(--g)">Tec</span></span>
+      </div>
+      <div class="flex flex-wrap justify-center gap-5 text-sm" style="color:var(--muted)">
+        <a href="#" class="hover:text-white transition-colors">Política de Privacidade</a>
+        <a href="#" class="hover:text-white transition-colors">Termos de Uso</a>
+        <a href="https://wa.me/5554981060461" class="hover:text-white transition-colors">Suporte</a>
+        <a href="https://instagram.com/vetta.tec" target="_blank" style="color:var(--g)">@vetta.tec</a>
+      </div>
+    </div>
+    <div class="text-center space-y-1" style="color:rgba(221,230,240,0.2);font-size:0.75rem">
+      <p>© 2026 VettaTec. Todos os direitos reservados.</p>
+      <p>Vetta Tecnologia e Automação Inteligente LTDA · CNPJ 65.408.045/0001-45</p>
+      <p>Startup enquadrada na Lei Complementar nº 182/2021</p>
+    </div>
+  </div>
 </footer>
 
-<!-- WPP Float -->
-<a href="https://wa.me/5554981060461?text=Ol%C3%A1%2C+vim+pela+landing+page+da+VettaTec!" target="_blank" class="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-xl transition-transform hover:scale-110" style="background:#25D366;box-shadow:0 4px 20px rgba(37,211,102,0.5);animation:floatUp 4s ease-in-out infinite;">
+<!-- ─── FLOATING WPP ─── -->
+<a href="https://wa.me/5554981060461?text=Olá%2C+vim+pela+landing+page+da+VettaTec!" target="_blank" class="wpp-float fixed bottom-7 right-7 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-2xl" style="background:#25D366;box-shadow:0 4px 24px rgba(37,211,102,0.5)">
   <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
 <script>
+// ─── Init Lucide ───
+if (typeof lucide !== 'undefined') lucide.createIcons();
 
-// FAQ
-function toggleFaq(btn) {
-  const item = btn.closest('.faq-item');
-  const body = item.querySelector('.faq-body');
-  const icon = item.querySelector('.faq-icon');
-  const isOpen = !body.classList.contains('hidden');
-  document.querySelectorAll('.faq-body').forEach(b => b.classList.add('hidden'));
-  document.querySelectorAll('.faq-icon').forEach(i => { i.textContent='+'; i.style.transform=''; });
-  if (!isOpen) {
-    body.classList.remove('hidden');
-    icon.textContent = '×';
-    icon.style.transform = 'rotate(45deg)';
-  }
-}
+// ─── Ticker fill ───
+(function() {
+  const track = document.querySelector('.ticker-track');
+  const tmpl = document.getElementById('ticker-items');
+  if (!track || !tmpl) return;
+  const html = tmpl.innerHTML;
+  track.innerHTML = html + html; // duplicate for seamless loop
+})();
 
-// SCROLL REVEAL
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+// ─── Scroll reveal ───
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); revealObs.unobserve(e.target); } });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+// ─── FAQ ───
+document.querySelectorAll('.faq-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const card = btn.closest('.card');
+    const body = card.querySelector('.faq-body');
+    const icon = card.querySelector('.faq-icon');
+    const isOpen = body.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-body').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.faq-icon').forEach(i => { i.textContent = '+'; i.classList.remove('open'); });
+    if (!isOpen) {
+      body.classList.add('open');
+      icon.textContent = '×';
+      icon.classList.add('open');
+    }
+  });
+});
+
+// ─── Smooth scroll ───
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
 </script>
 </body>
 </html>
